@@ -1,15 +1,8 @@
 import React from 'react';
 
-function App() {
+export default function App() {
   return (
-    <div>
-      <header>
-        <h1>
-          Here we go
-        </h1>
-      </header>
+    <div className = 'container'>
     </div>
   );
 }
-
-export default App;
