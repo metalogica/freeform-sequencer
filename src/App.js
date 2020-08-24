@@ -1,10 +1,10 @@
 import React from 'react';
-import MpcButton from './components/mpc-button';
+import MpcButtons from './components/mpc-buttons';
 
 export default function App() {
   return (
     <div className = 'container'>
-      <MpcButton/>
+      <MpcButtons/>
     </div>
   );
 }
