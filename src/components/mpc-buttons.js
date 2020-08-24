@@ -1,28 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { MembraneSynth, MetalSynth } from "tone"
 
-const Memsynth = new MembraneSynth().toDestination();
-const MetSynth = new MetalSynth().toDestination();
+const Memsynth = new MembraneSynth().toDestination()
+const MetSynth = new MetalSynth().toDestination()
 
 function MpcButton() {
-  let t0 = 0;
-  let t1 = 0;
+  let t0 = 0
 
   const [synth, setSynth] = useState(Memsynth)
   const [tone, setTone] = useState("C4")
 
-
   const handleMouseDown = () => {
-    synth.triggerAttackRelease(tone, "8n");
-
-    t0 = performance.now();
+    synth.triggerAttackRelease(tone, "2n")
+    t0 = performance.now()
   }
 
   const handleMouseUp = () => {
-    t1 = performance.now();
-
-    if ( t1 - t0 > 500 ) {
+    if ( performance.now() - t0 > 500 ) {
       setSynth(MetSynth)
+      setTone("A0")
     }
   }
 
