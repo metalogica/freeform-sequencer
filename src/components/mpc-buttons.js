@@ -31,8 +31,8 @@ const octaves = [
 ]
 
 const synths = [
-  { value: Memsynth, label: 'Membrane Synth' },
-  { value: MetSynth, label: 'Metallic Synth' },
+  { value: Memsynth, label: 'Membrane' },
+  { value: MetSynth, label: 'Metallic' },
 ]
 
 function MpcButton() {
@@ -45,7 +45,7 @@ function MpcButton() {
   // Modal State
   const [modal, toggleModal] = useModali({
     animated: true,
-    title: "Select New Tone"
+    title: "New Tone"
   });
 
   // Events MGMT
