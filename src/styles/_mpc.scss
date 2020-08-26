@@ -1,0 +1,30 @@
+.button-container {
+  margin-top: 40px;
+  // width: 310px;
+  // display: flex;
+  position: relative;
+  // flex-wrap: wrap;
+  justify-content: center;
+}
+
+.mpc-button {
+  min-height: 135px;
+  width: 135px;
+  border-radius: 5px;
+  background-color: white;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.ReactCollapse--collapse {
+  transition: height 500ms;
+  position: relative;
+  z-index: 1;
+
+  .ReactCollapse--content {
+    display: flex;
+    div {
+      width: 100px;
+    }
+  }
+}

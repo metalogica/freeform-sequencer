@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { MembraneSynth, MetalSynth } from "tone"
-import Modali, { useModali } from 'modali';
+import { UnmountClosed } from 'react-collapse';
 import Select from 'react-select';
 
 // Init Synths
@@ -42,11 +42,8 @@ function MpcButton() {
   const [octave, setOctaves] = useState(octaves[0])
   const [synth, setSynth] = useState(synths[0])
 
-  // Modal State
-  const [modal, toggleModal] = useModali({
-    animated: true,
-    title: "New Tone"
-  });
+  // Menu State
+  const [menuOpened, setMenu] = useState(false)
 
   // Events MGMT
   let t0 = 0
@@ -54,17 +51,20 @@ function MpcButton() {
   const handleMouseDown = () => {
     synth.value.triggerAttackRelease(`${note.value}${octave.value}`, "2n")
     t0 = performance.now()
+    setMenu(!menuOpened);
   }
 
   const handleMouseUp = () => {
     if ( performance.now() - t0 > 500 ) {
-      toggleModal()
     }
   }
 
   return (
     <React.Fragment>
-      <Modali.Modal {...modal}>
+      <div className = 'mpc-button' onMouseDown={()=> {handleMouseDown()}} onMouseUp={()=>{handleMouseUp()}}>
+
+      </div>
+      <UnmountClosed isOpened={menuOpened}>
         <Select
           options={notes}
           value={note}
@@ -80,8 +80,7 @@ function MpcButton() {
           value={synth}
           onChange={(selectedOption) => setSynth(selectedOption)}
         />
-      </Modali.Modal>
-      <div className = 'mpc-button' onMouseDown={()=> {handleMouseDown()}} onMouseUp={()=>{handleMouseUp()}}/>
+      </UnmountClosed>
     </React.Fragment>
   )
 }
@@ -89,13 +88,13 @@ function MpcButton() {
 export default function MpcButtons() {
 
   return (
-    <div className = 'button-container'>
-      <MpcButton />
-      <MpcButton />
-      <MpcButton />
-      <MpcButton />
-      <MpcButton />
-      <MpcButton />
-    </div>
+    <React.Fragment>
+      <div className = 'button-container'>
+        <div style={{ display:'flex', flexDirection: 'column' }}>
+          <MpcButton />
+          <MpcButton />
+        </div>
+      </div>
+    </React.Fragment>
   )
 }
