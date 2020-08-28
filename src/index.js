@@ -4,8 +4,8 @@ import App from './App';
 import './styles/index.scss';
 
 ReactDOM.render(
-  <div>
+  <React.Fragment>
     <App />
-  </div>,
+  </React.Fragment>,
   document.getElementById('root')
 );

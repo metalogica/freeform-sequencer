@@ -1,30 +1,36 @@
-.button-container {
-  margin-top: 40px;
-  // width: 310px;
-  // display: flex;
-  position: relative;
-  // flex-wrap: wrap;
-  justify-content: center;
-}
-
-.mpc-button {
-  min-height: 135px;
-  width: 135px;
-  border-radius: 5px;
-  background-color: white;
-  cursor: pointer;
-  margin: 10px;
-}
-
-.ReactCollapse--collapse {
-  transition: height 500ms;
-  position: relative;
-  z-index: 1;
-
-  .ReactCollapse--content {
+.mpc-buttons {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .button-container {
     display: flex;
-    div {
-      width: 100px;
+    position: relative;
+    margin: 0 auto;
+
+    .mpc-button {
+      min-height: 135px;
+      width: 135px;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: white;
+      margin: 10px;
+      transition: background-color, box-shadow 0.5s linear;
+    }
+  }
+
+  .ReactCollapse--collapse {
+    transition: height 500ms;
+    position: relative;
+    z-index: 1;
+
+    .ReactCollapse--content {
+      display: flex;
+      div {
+        width: 100px;
+      }
     }
   }
 }
+
+

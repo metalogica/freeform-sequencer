@@ -37,48 +37,107 @@ const synths = [
 
 function MpcButton() {
 
-  // Select States
-  const [note, setNote] = useState(notes[0])
-  const [octave, setOctaves] = useState(octaves[0])
-  const [synth, setSynth] = useState(synths[0])
+  // Tone States
+  const [note1, setNote1] = useState(notes[0])
+  const [note2, setNote2] = useState(notes[0])
+
+  const [octave1, setOctave1] = useState(octaves[0])
+  const [octave2, setOctave2] = useState(octaves[0])
+
+  const [synth1, setSynth1] = useState(synths[0])
+  const [synth2, setSynth2] = useState(synths[0])
 
   // Menu State
-  const [menuOpened, setMenu] = useState(false)
+  const [menuOpened1, setMenu1] = useState(false)
+  const [menuOpened2, setMenu2] = useState(false)
 
   // Events MGMT
-  let t0 = 0
+  let t0
 
-  const handleMouseDown = () => {
-    synth.value.triggerAttackRelease(`${note.value}${octave.value}`, "2n")
+  const handleMouseDown = (synth, note, octave) => {
+    t0 = 0
+    synth.triggerAttackRelease(`${note}${octave}`, "2n")
     t0 = performance.now()
-    setMenu(!menuOpened);
+    setMenu1(false)
+    setMenu2(false)
   }
 
-  const handleMouseUp = () => {
-    if ( performance.now() - t0 > 500 ) {
+  const handleMouseUp = (menuToggle, menuOpened, menuNonToggle) => {
+    if ( performance.now() - t0 > 100 ) {
+      menuToggle(!menuOpened)
+      menuNonToggle(false)
+      t0 = 0
     }
   }
 
   return (
     <React.Fragment>
-      <div className = 'mpc-button' onMouseDown={()=> {handleMouseDown()}} onMouseUp={()=>{handleMouseUp()}}>
-
+      <div className="button-container">
+        <div
+          style={
+            menuOpened1 ?
+            {
+              backgroundColor: "rgb(58, 217, 127)",
+              boxShadow: "0px 0px 20px 5px rgba(58, 217, 127, 0.5)" }
+              : {backgroundColor: "white"}
+            }
+          className = 'mpc-button'
+          onMouseDown={()=> {
+            handleMouseDown(synth1.value, note1.value, octave1.value)
+          }}
+          onMouseUp={()=>{
+            handleMouseUp(setMenu1, menuOpened1, setMenu2)
+          }}
+        />
+        <div
+          style={
+            menuOpened2 ?
+            {
+              backgroundColor: "rgb(58, 217, 127)",
+              boxShadow: "0px 0px 20px 5px rgba(58, 217, 127, 0.5)" }
+              : {backgroundColor: "white"}
+            }
+          className = 'mpc-button'
+          onMouseDown={()=> {
+            handleMouseDown(synth2.value, note2.value, octave2.value)
+          }}
+          onMouseUp={()=>{
+            handleMouseUp(setMenu2, menuOpened2, setMenu1)
+          }}
+        />
       </div>
-      <UnmountClosed isOpened={menuOpened}>
+      <UnmountClosed isOpened={menuOpened1}>
         <Select
           options={notes}
-          value={note}
-          onChange={(selectedOption) => setNote(selectedOption)}
+          value={note1}
+          onChange={(selectedOption) => setNote1(selectedOption)}
         />
         <Select
           options={octaves}
-          value={octave}
-          onChange={(selectedOption) => setOctaves(selectedOption)}
+          value={octave1}
+          onChange={(selectedOption) => setOctave1(selectedOption)}
         />
         <Select
           options={synths}
-          value={synth}
-          onChange={(selectedOption) => setSynth(selectedOption)}
+          value={synth1}
+          onChange={(selectedOption) => setSynth1(selectedOption)}
+        />
+      </UnmountClosed>
+      <UnmountClosed isOpened={menuOpened2}>
+        <Select
+          options={notes}
+          value={note2}
+          onChange={(selectedOption) => setNote2(selectedOption)}
+        />
+        <Select
+          options={octaves}
+          value={octave2}
+          onChange={(selectedOption) => setOctave2(selectedOption)}
+        />
+        <Select
+          options={synths}
+          value={synth2}
+          onChange={(selectedOption) => setSynth2(selectedOption)}
         />
       </UnmountClosed>
     </React.Fragment>
@@ -88,13 +147,10 @@ function MpcButton() {
 export default function MpcButtons() {
 
   return (
-    <React.Fragment>
-      <div className = 'button-container'>
-        <div style={{ display:'flex', flexDirection: 'column' }}>
-          <MpcButton />
-          <MpcButton />
-        </div>
-      </div>
-    </React.Fragment>
+    <div className = 'mpc-buttons'>
+      <MpcButton />
+      <MpcButton />
+      <MpcButton />
+    </div>
   )
 }
