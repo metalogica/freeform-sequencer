@@ -54,7 +54,7 @@ function MpcButton() {
   // Events MGMT
   let t0
 
-  const handleMouseDown = () => {
+  const handleMouseDown = (synth, note, octave) => {
     t0 = performance.now()
     setMenu1(false)
     setMenu2(false)
@@ -62,7 +62,7 @@ function MpcButton() {
     window.navigator.vibrate(100);
   }
 
-  const handleMouseUp = (synth, note, octave, menuToggle, menuOpened, menuNonToggle) => {
+  const handleMouseUp = (menuToggle, menuOpened, menuNonToggle) => {
     if ( performance.now() - t0 > 500 ) {
       menuToggle(!menuOpened)
       menuNonToggle(false)
