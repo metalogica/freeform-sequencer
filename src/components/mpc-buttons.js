@@ -58,6 +58,8 @@ function MpcButton() {
     t0 = performance.now()
     setMenu1(false)
     setMenu2(false)
+    synth.triggerAttackRelease(`${note}${octave}`, "2n")
+    window.navigator.vibrate(100);
   }
 
   const handleMouseUp = (synth, note, octave, menuToggle, menuOpened, menuNonToggle) => {
@@ -65,9 +67,6 @@ function MpcButton() {
       menuToggle(!menuOpened)
       menuNonToggle(false)
       t0 = 0
-    } else {
-      synth.triggerAttackRelease(`${note}${octave}`, "2n")
-      window.navigator.vibrate(200);
     }
   }
 
@@ -82,6 +81,12 @@ function MpcButton() {
           onMouseUp={()=>{
             handleMouseUp(synth1.value, note1.value, octave1.value, setMenu1, menuOpened1, setMenu2)
           }}
+          onTouchStart={()=> {
+            handleMouseDown()
+          }}
+          onTouchEnd={()=>{
+            handleMouseUp(synth1.value, note1.value, octave1.value, setMenu1, menuOpened1, setMenu2)
+          }}
         />
         <div
           className = {menuOpened2 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
@@ -90,6 +95,12 @@ function MpcButton() {
           }}
           onMouseUp={()=>{
             handleMouseUp(synth2.value, note2.value, octave2.value, setMenu2, menuOpened2, setMenu1)
+          }}
+          onTouchStart={()=> {
+            handleMouseDown()
+          }}
+          onTouchEnd={()=>{
+            handleMouseUp(synth1.value, note1.value, octave1.value, setMenu1, menuOpened1, setMenu2)
           }}
         />
       </div>
