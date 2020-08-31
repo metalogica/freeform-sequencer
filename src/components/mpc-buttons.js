@@ -54,19 +54,20 @@ function MpcButton() {
   // Events MGMT
   let t0
 
-  const handleMouseDown = (synth, note, octave) => {
-    t0 = 0
-    synth.triggerAttackRelease(`${note}${octave}`, "2n")
+  const handleMouseDown = () => {
     t0 = performance.now()
     setMenu1(false)
     setMenu2(false)
   }
 
-  const handleMouseUp = (menuToggle, menuOpened, menuNonToggle) => {
-    if ( performance.now() - t0 > 100 ) {
+  const handleMouseUp = (synth, note, octave, menuToggle, menuOpened, menuNonToggle) => {
+    if ( performance.now() - t0 > 500 ) {
       menuToggle(!menuOpened)
       menuNonToggle(false)
       t0 = 0
+    } else {
+      synth.triggerAttackRelease(`${note}${octave}`, "2n")
+      window.navigator.vibrate(200);
     }
   }
 
@@ -74,35 +75,21 @@ function MpcButton() {
     <React.Fragment>
       <div className="button-container">
         <div
-          style={
-            menuOpened1 ?
-            {
-              backgroundColor: "rgb(58, 217, 127)",
-              boxShadow: "0px 0px 20px 5px rgba(58, 217, 127, 0.5)" }
-              : {backgroundColor: "white"}
-            }
-          className = 'mpc-button'
+          className = {menuOpened1 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
-            handleMouseDown(synth1.value, note1.value, octave1.value)
+            handleMouseDown()
           }}
           onMouseUp={()=>{
-            handleMouseUp(setMenu1, menuOpened1, setMenu2)
+            handleMouseUp(synth1.value, note1.value, octave1.value, setMenu1, menuOpened1, setMenu2)
           }}
         />
         <div
-          style={
-            menuOpened2 ?
-            {
-              backgroundColor: "rgb(58, 217, 127)",
-              boxShadow: "0px 0px 20px 5px rgba(58, 217, 127, 0.5)" }
-              : {backgroundColor: "white"}
-            }
-          className = 'mpc-button'
+          className = {menuOpened2 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
-            handleMouseDown(synth2.value, note2.value, octave2.value)
+            handleMouseDown()
           }}
           onMouseUp={()=>{
-            handleMouseUp(setMenu2, menuOpened2, setMenu1)
+            handleMouseUp(synth2.value, note2.value, octave2.value, setMenu2, menuOpened2, setMenu1)
           }}
         />
       </div>
