@@ -54,7 +54,7 @@ function MpcButton() {
   // Events MGMT
   let t0
 
-  const handleMouseDown = (synth, note, octave) => {
+  const handleDown = (synth, note, octave) => {
     t0 = performance.now()
     setMenu1(false)
     setMenu2(false)
@@ -62,7 +62,7 @@ function MpcButton() {
     window.navigator.vibrate(100);
   }
 
-  const handleMouseUp = (menuToggle, menuOpened, menuNonToggle) => {
+  const handleUp = (menuToggle, menuOpened, menuNonToggle) => {
     if ( performance.now() - t0 > 500 ) {
       menuToggle(!menuOpened)
       menuNonToggle(false)
@@ -76,31 +76,31 @@ function MpcButton() {
         <div
           className = {menuOpened1 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
-            handleMouseDown(synth1.value, note1.value, octave1.value)
+            handleDown(synth1.value, note1.value, octave1.value)
           }}
           onMouseUp={()=>{
-            handleMouseUp(setMenu1, menuOpened1, setMenu2)
+            handleUp(setMenu1, menuOpened1, setMenu2)
           }}
           onTouchStart={()=> {
-            handleMouseDown(synth1.value, note1.value, octave1.value)
+            handleDown(synth1.value, note1.value, octave1.value)
           }}
           onTouchEnd={()=>{
-            handleMouseUp(setMenu1, menuOpened1, setMenu2)
+            handleUp(setMenu1, menuOpened1, setMenu2)
           }}
         />
         <div
           className = {menuOpened2 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
-            handleMouseDown(synth2.value, note2.value, octave2.value)
+            handleDown(synth2.value, note2.value, octave2.value)
           }}
           onMouseUp={()=>{
-            handleMouseUp(setMenu2, menuOpened2, setMenu1)
+            handleUp(setMenu2, menuOpened2, setMenu1)
           }}
           onTouchStart={()=> {
-            handleMouseDown(synth2.value, note2.value, octave2.value)
+            handleDown(synth2.value, note2.value, octave2.value)
           }}
           onTouchEnd={()=>{
-            handleMouseUp(setMenu1, menuOpened1, setMenu2)
+            handleUp(setMenu2, menuOpened2, setMenu1)
           }}
         />
       </div>
