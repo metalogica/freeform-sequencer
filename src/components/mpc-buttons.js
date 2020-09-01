@@ -76,31 +76,31 @@ function MpcButton() {
         <div
           className = {menuOpened1 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
-            handleMouseDown()
+            handleMouseDown(synth1.value, note1.value, octave1.value)
           }}
           onMouseUp={()=>{
-            handleMouseUp(synth1.value, note1.value, octave1.value, setMenu1, menuOpened1, setMenu2)
+            handleMouseUp(setMenu1, menuOpened1, setMenu2)
           }}
           onTouchStart={()=> {
-            handleMouseDown()
+            handleMouseDown(synth1.value, note1.value, octave1.value)
           }}
           onTouchEnd={()=>{
-            handleMouseUp(synth1.value, note1.value, octave1.value, setMenu1, menuOpened1, setMenu2)
+            handleMouseUp(setMenu1, menuOpened1, setMenu2)
           }}
         />
         <div
           className = {menuOpened2 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
-            handleMouseDown()
+            handleMouseDown(synth2.value, note2.value, octave2.value)
           }}
           onMouseUp={()=>{
-            handleMouseUp(synth2.value, note2.value, octave2.value, setMenu2, menuOpened2, setMenu1)
+            handleMouseUp(setMenu2, menuOpened2, setMenu1)
           }}
           onTouchStart={()=> {
-            handleMouseDown()
+            handleMouseDown(synth2.value, note2.value, octave2.value)
           }}
           onTouchEnd={()=>{
-            handleMouseUp(synth1.value, note1.value, octave1.value, setMenu1, menuOpened1, setMenu2)
+            handleMouseUp(setMenu1, menuOpened1, setMenu2)
           }}
         />
       </div>
