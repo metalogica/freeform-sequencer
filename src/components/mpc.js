@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { UnmountClosed } from 'react-collapse';
 import Select from 'react-select';
-import { notes, octaves, synths, Memsynth, MetSynth } from '../data/synth-data'
+import { notes, octaves, synths } from '../data/synth-data'
 
 function MpcButtonPair() {
 
@@ -110,7 +110,7 @@ function MpcButtonPair() {
   )
 }
 
-export default function MpcButtons() {
+export default function Mpc() {
   return (
     <div className = 'mpc-buttons'>
       <MpcButtonPair />
