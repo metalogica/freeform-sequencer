@@ -42,7 +42,6 @@
   .ReactCollapse--collapse {
     transition: height 500ms;
     position: relative;
-    z-index: 1;
 
     .ReactCollapse--content {
       display: flex;
