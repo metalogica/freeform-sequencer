@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Select from 'react-select';
 import { BsFillPlayFill, BsFillStopFill, BsMusicNote } from 'react-icons/bs';
 import { CgMathEqual } from 'react-icons/cg'
@@ -19,8 +19,23 @@ function SequencerRow() {
   const [synth, setSynth] = useState(synths[0])
 
   // Playthrough states
-  const [tempo, setTempo] = useState(50)
+  const [tempo, setTempo] = useState(90)
   const [playing, setPlay] = useState(false)
+  const [spot, changeSpot] = useState(0)
+
+  // Effect hook for playing
+  useEffect(()=>{
+    let bpm = 60000/tempo
+    if (playing) {
+      setTimeout(() => {
+        synth.value.triggerAttackRelease(`${note.value}${octave.value}`, "2n")
+        changeSpot(spot => spot +1 )
+        console.log(spot)
+      }
+      , bpm)
+    }
+  },[playing, tempo, note, octave, synth])
+
 
   return (
     <React.Fragment>
@@ -29,19 +44,19 @@ function SequencerRow() {
           styles={selectStyle}
           options={notes}
           value={note}
-          onChange={(selectedOption) => setNote(selectedOption)}
+          onChange={selectedOption => setNote(selectedOption)}
         />
         <Select
           styles={selectStyle}
           options={octaves}
           value={octave}
-          onChange={(selectedOption) => setOctave(selectedOption)}
+          onChange={selectedOption => setOctave(selectedOption)}
         />
         <Select
           styles={selectStyle}
           options={synths}
           value={synth}
-          onChange={(selectedOption) => setSynth(selectedOption)}
+          onChange={selectedOption => setSynth(selectedOption)}
         />
         <div className="sequence-controls">
           <BsFillPlayFill
@@ -54,7 +69,7 @@ function SequencerRow() {
           <span style = {{ fontSize: "15px" }}>
             <BsMusicNote />
             <CgMathEqual />
-            <input value={tempo} onChange={(event)=>setTempo(event.target.value)}/>
+            <input value={tempo} onChange={ event => setTempo(event.target.value)}/>
           </span>
         </div>
       </div>

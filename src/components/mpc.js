@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Collapse } from 'react-collapse';
-import Select from 'react-select';
+import { Collapse } from 'react-collapse'
+import Select from 'react-select'
 import { notes, octaves, synths } from '../data/synth-data'
 
 function MpcButtonPair() {
@@ -26,6 +26,7 @@ function MpcButtonPair() {
     t0 = performance.now()
     setMenu1(false)
     setMenu2(false)
+    console.log(synth)
     synth.triggerAttackRelease(`${note}${octave}`, "2n")
   }
 
@@ -75,34 +76,34 @@ function MpcButtonPair() {
         <Select
           options={notes}
           value={note1}
-          onChange={(selectedOption) => setNote1(selectedOption)}
+          onChange={selectedOption => setNote1(selectedOption)}
         />
         <Select
           options={octaves}
           value={octave1}
-          onChange={(selectedOption) => setOctave1(selectedOption)}
+          onChange={selectedOption => setOctave1(selectedOption)}
         />
         <Select
           options={synths}
           value={synth1}
-          onChange={(selectedOption) => setSynth1(selectedOption)}
+          onChange={selectedOption => setSynth1(selectedOption)}
         />
       </Collapse>
       <Collapse isOpened={menuOpened2}>
         <Select
           options={notes}
           value={note2}
-          onChange={(selectedOption) => setNote2(selectedOption)}
+          onChange={selectedOption => setNote2(selectedOption)}
         />
         <Select
           options={octaves}
           value={octave2}
-          onChange={(selectedOption) => setOctave2(selectedOption)}
+          onChange={selectedOption => setOctave2(selectedOption)}
         />
         <Select
           options={synths}
           value={synth2}
-          onChange={(selectedOption) => setSynth2(selectedOption)}
+          onChange={selectedOption => setSynth2(selectedOption)}
         />
       </Collapse>
     </React.Fragment>
