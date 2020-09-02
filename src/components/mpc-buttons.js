@@ -2,40 +2,14 @@ import React, { useState } from 'react'
 import { MembraneSynth, MetalSynth } from "tone"
 import { UnmountClosed } from 'react-collapse';
 import Select from 'react-select';
+import { notes, octaves, synths } from '../data/synth-data'
 
 // Init Synths
 const Memsynth = new MembraneSynth().toDestination()
 const MetSynth = new MetalSynth().toDestination()
 
-// Select Parameters
-const notes = [
-  { value: 'A', label: 'A' },
-  { value: 'B', label: 'B' },
-  { value: 'C', label: 'C' },
-  { value: 'D', label: 'D' },
-  { value: 'E', label: 'E' },
-  { value: 'F', label: 'F' },
-  { value: 'G', label: 'G' },
-]
 
-const octaves = [
-  { value: '0', label: '0', },
-  { value: '1', label: '1', },
-  { value: '2', label: '2', },
-  { value: '3', label: '3', },
-  { value: '4', label: '4', },
-  { value: '5', label: '5', },
-  { value: '6', label: '6', },
-  { value: '7', label: '7', },
-  { value: '8', label: '8', },
-]
-
-const synths = [
-  { value: Memsynth, label: 'Membrane' },
-  { value: MetSynth, label: 'Metallic' },
-]
-
-function MpcButton() {
+function MpcButtonPair() {
 
   // Tone States
   const [note1, setNote1] = useState(notes[0])
@@ -143,12 +117,11 @@ function MpcButton() {
 }
 
 export default function MpcButtons() {
-
   return (
     <div className = 'mpc-buttons'>
-      <MpcButton />
-      <MpcButton />
-      <MpcButton />
+      <MpcButtonPair />
+      <MpcButtonPair />
+      <MpcButtonPair />
     </div>
   )
 }
