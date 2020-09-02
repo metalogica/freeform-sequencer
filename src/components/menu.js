@@ -8,15 +8,15 @@ export default function Menu() {
     <div className="menu">
       <ul>
         <li style = {{ fontSize: "30px" }}>
-          <a> <BiGridVertical/> </a>
+          <a href="/"> <BiGridVertical/> </a>
         </li>
         <div className="vertical-divider"></div>
         <li style = {{ fontSize: "20px" }}>
-          <a> <FiMic/> </a>
+          <a href="/mic"> <FiMic/> </a>
         </li>
         <div className="vertical-divider"></div>
         <li style = {{ fontSize: "30px" }}>
-          <a> <BsFillPlayFill/> </a>
+          <a href="/sequence"> <BsFillPlayFill/> </a>
         </li>
       </ul>
     </div>
