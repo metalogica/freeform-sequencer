@@ -12,6 +12,12 @@ export default function Menu() {
   return (
     <React.Fragment>
       <HashRouter>
+        <div className = 'container'>
+          <Route exact path ="/" component={ Mpc }/>
+          <Route path ="/mic" component={ Mic }/>
+          <Route path ="/sequencer" component={ Sequencer }/>
+        </div>
+
         <div className="menu">
           <ul>
             <li style = {{ fontSize: "30px" }}>
@@ -28,11 +34,6 @@ export default function Menu() {
           </ul>
         </div>
 
-        <div className = 'container'>
-          <Route exact path ="/" component={ Mpc }/>
-          <Route path ="/mic" component={ Mic }/>
-          <Route path ="/sequencer" component={ Sequencer }/>
-        </div>
       </HashRouter>
     </React.Fragment>
   )

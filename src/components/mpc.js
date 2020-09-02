@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { UnmountClosed } from 'react-collapse';
+import { Collapse } from 'react-collapse';
 import Select from 'react-select';
 import { notes, octaves, synths } from '../data/synth-data'
 
@@ -27,7 +27,6 @@ function MpcButtonPair() {
     setMenu1(false)
     setMenu2(false)
     synth.triggerAttackRelease(`${note}${octave}`, "2n")
-    window.navigator.vibrate(100);
   }
 
   const handleUp = (menuToggle, menuOpened, menuNonToggle) => {
@@ -72,7 +71,7 @@ function MpcButtonPair() {
           }}
         />
       </div>
-      <UnmountClosed isOpened={menuOpened1}>
+      <Collapse isOpened={menuOpened1}>
         <Select
           options={notes}
           value={note1}
@@ -88,8 +87,8 @@ function MpcButtonPair() {
           value={synth1}
           onChange={(selectedOption) => setSynth1(selectedOption)}
         />
-      </UnmountClosed>
-      <UnmountClosed isOpened={menuOpened2}>
+      </Collapse>
+      <Collapse isOpened={menuOpened2}>
         <Select
           options={notes}
           value={note2}
@@ -105,7 +104,7 @@ function MpcButtonPair() {
           value={synth2}
           onChange={(selectedOption) => setSynth2(selectedOption)}
         />
-      </UnmountClosed>
+      </Collapse>
     </React.Fragment>
   )
 }

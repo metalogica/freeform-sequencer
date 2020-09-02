@@ -1,0 +1,20 @@
+.sequencer {
+  display: flex;
+  margin: 0 auto;
+  width: fit-content;
+  .select-container {
+    align-items: center;
+    display: flex;
+  }
+  .audio-nodes {
+    display: flex;
+    .audio-node {
+      min-height: 60px;
+      width: 60px;
+      margin: 5px;
+      background-color: rgb(198, 198, 198);
+      border-radius: 5px;
+    }
+  }
+}
+
