@@ -1,4 +1,10 @@
-// Select Parameters
+import { MembraneSynth, MetalSynth } from "tone"
+
+// Init Synths
+export const Memsynth = new MembraneSynth().toDestination()
+export const MetSynth = new MetalSynth().toDestination()
+
+// Synth Data
 export const notes = [
   { value: 'A', label: 'A' },
   { value: 'B', label: 'B' },

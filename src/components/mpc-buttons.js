@@ -1,13 +1,7 @@
 import React, { useState } from 'react'
-import { MembraneSynth, MetalSynth } from "tone"
 import { UnmountClosed } from 'react-collapse';
 import Select from 'react-select';
-import { notes, octaves, synths } from '../data/synth-data'
-
-// Init Synths
-const Memsynth = new MembraneSynth().toDestination()
-const MetSynth = new MetalSynth().toDestination()
-
+import { notes, octaves, synths, Memsynth, MetSynth } from '../data/synth-data'
 
 function MpcButtonPair() {
 
