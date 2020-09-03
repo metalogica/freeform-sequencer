@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Mic() {
+const Mic = () => {
   return (
     <div>
       <p>
@@ -9,3 +9,5 @@ export default function Mic() {
     </div>
   )
 }
+
+export default Mic

@@ -8,7 +8,7 @@ import Mpc from './mpc';
 import Sequencer from './sequencer'
 
 
-export default function Menu() {
+const Menu = () => {
   return (
     <React.Fragment>
       <HashRouter>
@@ -38,3 +38,5 @@ export default function Menu() {
     </React.Fragment>
   )
 }
+
+export default Menu
