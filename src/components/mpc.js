@@ -26,7 +26,6 @@ const MpcButtonPair = () => {
     t0 = performance.now()
     setMenu1(false)
     setMenu2(false)
-    console.log(synth)
     synth.triggerAttackRelease(`${note}${octave}`, "2n")
   }
 

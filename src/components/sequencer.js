@@ -8,35 +8,35 @@ const Sequencer = () => {
   // Playthrough states
   const [tempo, setTempo] = useState(90)
   const [playing, setPlay] = useState(false)
-  const [spot, changeSpot] = useState(0)
+  const [beat, changeBeat] = useState(0)
 
-  let freq = 60000/tempo
+  let freq = 60000*16/tempo
 
   const stop = () => {
     setPlay(false)
-    changeSpot(-1)
+    changeBeat(-1)
   }
 
   const playPause = () => {
     setPlay(!playing)
-    changeSpot(spot)
+    changeBeat(beat)
   }
 
-  const updateSpot = () => {
+  const updateBeat = () => {
     if (playing) {
-      changeSpot(spot => spot + 1)
+      changeBeat(beat => beat + 1)
     }
   }
 
   // Update Spot
   setTimeout(function(){
-    updateSpot()
+    updateBeat()
   }, freq) ;
 
   return (
     <div className="sequencer">
       <div className="sequence-controls">
-        {playing
+        { playing
           ? <BsFillPauseFill
             style = {{ fontSize: "30px" }}
             onClick={()=>playPause()}
@@ -58,9 +58,10 @@ const Sequencer = () => {
         </span>
       </div>
       <div className="sequencer-rows">
-        <SequencerRow spot={spot}/>
-        <SequencerRow spot={spot}/>
-        <SequencerRow spot={spot}/>
+        <SequencerRow beat={beat}/>
+        <SequencerRow beat={beat}/>
+        <SequencerRow beat={beat}/>
+        <SequencerRow beat={beat}/>
       </div>
     </div>
   )
