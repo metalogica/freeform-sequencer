@@ -1,31 +1,31 @@
 .sequencer {
   margin: 0 auto;
   width: fit-content;
+  .sequence-controls {
+    width: 30%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-left: 100px;
+    > svg {
+      cursor: pointer;
+    }
+    span {
+      cursor: default;
+      padding-top: 5px;
+      input {
+        position: relative;
+        bottom: 2px;
+        border-radius: 5px;
+        border: none;
+        padding: 5px;
+        background-color: #f1f1f1;
+      }
+    }
+  }
   .select-container {
     align-items: center;
     display: flex;
-    .sequence-controls {
-      width: 30%;
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-      margin-left: 100px;
-      > svg {
-        cursor: pointer;
-      }
-      span {
-        cursor: default;
-        padding-top: 5px;
-        input {
-          position: relative;
-          bottom: 2px;
-          border-radius: 5px;
-          border: none;
-          padding: 5px;
-          background-color: #f1f1f1;
-        }
-      }
-    }
   }
   .audio-nodes {
     display: flex;
