@@ -47,6 +47,12 @@ const SequencerRow = ({beat}) => {
           note = {note}
           octave = {octave}
           synth = {synth}
+          spot = {0}/>
+        <SequencerNode
+          beat = {beat}
+          note = {note}
+          octave = {octave}
+          synth = {synth}
           spot = {1}/>
         <SequencerNode
           beat = {beat}
@@ -60,13 +66,13 @@ const SequencerRow = ({beat}) => {
           octave = {octave}
           synth = {synth}
           spot = {3}/>
+        <FiMoreVertical style = {{ fontSize: "20px"}} />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
           spot = {4}/>
-        <FiMoreVertical style = {{ fontSize: "20px"}} />
         <SequencerNode
           beat = {beat}
           note = {note}
@@ -85,13 +91,13 @@ const SequencerRow = ({beat}) => {
           octave = {octave}
           synth = {synth}
           spot = {7}/>
+        <FiMoreVertical style = {{ fontSize: "20px"}} />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
           spot = {8}/>
-        <FiMoreVertical style = {{ fontSize: "20px"}} />
         <SequencerNode
           beat = {beat}
           note = {note}
@@ -110,13 +116,13 @@ const SequencerRow = ({beat}) => {
           octave = {octave}
           synth = {synth}
           spot = {11}/>
+        <FiMoreVertical style = {{ fontSize: "20px"}} />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
           spot = {12}/>
-        <FiMoreVertical style = {{ fontSize: "20px"}} />
         <SequencerNode
           beat = {beat}
           note = {note}
@@ -135,12 +141,6 @@ const SequencerRow = ({beat}) => {
           octave = {octave}
           synth = {synth}
           spot = {15}/>
-        <SequencerNode
-          beat = {beat}
-          note = {note}
-          octave = {octave}
-          synth = {synth}
-          spot = {16}/>
       </div>
     </React.Fragment>
   )

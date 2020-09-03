@@ -1,24 +1,29 @@
 .sequencer {
   margin: 0 auto;
   width: fit-content;
+  position: relative;
   .sequence-controls {
-    width: 30%;
+    width: 35%;
+    right: 25px;
+    top: 5px;
     display: flex;
-    justify-content: space-evenly;
+    position: absolute;
+    justify-content: space-around;
     align-items: center;
-    margin-left: 100px;
     > svg {
       cursor: pointer;
     }
-    span {
+    div {
+      align-items: center;
       cursor: default;
-      padding-top: 5px;
+      display: flex;
       input {
         position: relative;
         bottom: 2px;
         border-radius: 5px;
         border: none;
         padding: 5px;
+        margin-right: 10px;
         background-color: #f1f1f1;
       }
     }
@@ -31,6 +36,7 @@
     display: flex;
     align-items: center;
     .audio-node {
+      cursor: pointer;
       min-height: 60px;
       width: 60px;
       margin: 5px;
@@ -41,6 +47,10 @@
 
     .active {
       background-color: rgb(58, 217, 127) !important;
+    }
+
+    .on-beat {
+      background-color: rgb(102, 170, 255) !important;
     }
   }
 }

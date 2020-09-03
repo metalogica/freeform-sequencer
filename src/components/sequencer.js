@@ -8,13 +8,13 @@ const Sequencer = () => {
   // Playthrough states
   const [tempo, setTempo] = useState(90)
   const [playing, setPlay] = useState(false)
-  const [beat, changeBeat] = useState(0)
+  const [beat, changeBeat] = useState(-1)
 
-  let freq = 60000*16/tempo
+  let freq = 60000/(tempo * 4)
 
   const stop = () => {
+    changeBeat(-2)
     setPlay(false)
-    changeBeat(-1)
   }
 
   const playPause = () => {
@@ -24,7 +24,7 @@ const Sequencer = () => {
 
   const updateBeat = () => {
     if (playing) {
-      changeBeat(beat => beat + 1)
+      changeBeat(beat => ((beat + 1) % 16))
     }
   }
 
@@ -50,12 +50,11 @@ const Sequencer = () => {
           style = {{ fontSize: "30px" }}
           onClick={()=>stop()}
           />
-        <span style = {{ fontSize: "15px" }}>
+        <div style = {{ fontSize: "15px" }}>
           <BsMusicNote />
           <CgMathEqual />
           <input value={tempo} onChange={ event => setTempo(event.target.value)}/>
-          <p>bpm</p>
-        </span>
+        </div>
       </div>
       <div className="sequencer-rows">
         <SequencerRow beat={beat}/>

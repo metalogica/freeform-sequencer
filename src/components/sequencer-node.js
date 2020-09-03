@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { notes, octaves, synths } from '../data/synth-data'
 
 const SequencerNode = ({beat, note, octave, synth, spot}) => {
 
@@ -15,10 +14,20 @@ const SequencerNode = ({beat, note, octave, synth, spot}) => {
 
   return(
     <div
-      className = {active ? "audio-node active" : "audio-node"}
+      className = {
+        active
+          ? spot === beat
+            ? "audio-node active on-beat"
+            : "audio-node active"
+          : spot === beat
+            ? "audio-node on-beat"
+            : "audio-node"
+      }
       onClick = {() => changeActive(!active)}
     />
   )
 }
 
 export default SequencerNode
+
+// "audio-node active"
