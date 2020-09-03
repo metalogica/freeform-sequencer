@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const SequencerNode = ({beat, note, octave, synth, spot}) => {
 
@@ -10,7 +10,9 @@ const SequencerNode = ({beat, note, octave, synth, spot}) => {
     }
   }
 
-  shouldPlay()
+  useEffect(() => {
+    shouldPlay()
+  })
 
   return(
     <div

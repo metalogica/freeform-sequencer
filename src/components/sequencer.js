@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SequencerRow from './sequencer-row'
 import { BsFillPlayFill, BsFillPauseFill, BsFillStopFill, BsMusicNote } from 'react-icons/bs';
 import { CgMathEqual } from 'react-icons/cg'
@@ -12,9 +12,10 @@ const Sequencer = () => {
 
   let freq = 60000/(tempo * 4)
 
+  // Play controls
   const stop = () => {
-    changeBeat(-2)
     setPlay(false)
+    changeBeat(-2)
   }
 
   const playPause = () => {
@@ -28,10 +29,30 @@ const Sequencer = () => {
     }
   }
 
-  // Update Spot
-  setTimeout(function(){
-    updateBeat()
-  }, freq) ;
+  useEffect(() => {
+    // Event Listener for keypresses (start/ stop with space)
+    const keyPressHandler = (e) => {
+      if (e.key === " ") {
+        e.preventDefault()
+        playPause()
+      }
+      if (e.key === "s") {
+        stop()
+      }
+    }
+
+    document.addEventListener('keydown', keyPressHandler);
+
+    // Update Spot
+    setTimeout(function(){
+      updateBeat()
+    }, freq) ;
+
+    return () => {
+      // cleanup event listener
+      document.removeEventListener('keydown', keyPressHandler);
+    };
+  });
 
   return (
     <div className="sequencer">
@@ -39,16 +60,16 @@ const Sequencer = () => {
         { playing
           ? <BsFillPauseFill
             style = {{ fontSize: "30px" }}
-            onClick={()=>playPause()}
+            onClick={() => playPause()}
           />
           : <BsFillPlayFill
             style = {{ fontSize: "30px" }}
-            onClick={()=>playPause()}
+            onClick={() => playPause()}
           />
         }
         <BsFillStopFill
           style = {{ fontSize: "30px" }}
-          onClick={()=>stop()}
+          onClick={() => stop()}
           />
         <div style = {{ fontSize: "15px" }}>
           <BsMusicNote />
