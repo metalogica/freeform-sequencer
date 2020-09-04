@@ -39,6 +39,19 @@ const SequencerRow = ({beat}) => {
           value={octave}
           onChange={selectedOption => setOctave(selectedOption)}
         />
+        <div>
+          <input
+            className="switch" // react-switch-checkbox
+            id={`switch`} // react-switch-new
+            type="checkbox"
+          />
+          <label
+            className="switch-label" // react-switch-label
+            htmlFor={`switch`} // react-switch-new
+          >
+            <span className={`switch-button`} /> {/* react switch button*/}
+          </label>
+        </div>
       </div>
 
       <div className="audio-nodes">
