@@ -1,8 +1,10 @@
-import { MembraneSynth, MetalSynth } from "tone"
+import { MembraneSynth, MetalSynth, AMSynth, MonoSynth } from "tone"
 
 // Init Synths
 export const Memsynth = new MembraneSynth().toDestination()
 export const MetSynth = new MetalSynth().toDestination()
+export const AmSynth = new AMSynth().toDestination()
+export const MonSynth = new MonoSynth().toDestination()
 
 // Synth Data
 export const notes = [
@@ -35,4 +37,6 @@ export const octaves = [
 export const synths = [
   { value: Memsynth, label: 'Membrane' },
   { value: MetSynth, label: 'Metallic' },
+  { value: AmSynth, label: 'AM' },
+  { value: MonSynth, label: 'Mono' },
 ]

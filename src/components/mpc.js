@@ -3,7 +3,7 @@ import { Collapse } from 'react-collapse'
 import Select from 'react-select'
 import { notes, octaves, synths } from '../data/synth-data'
 
-const MpcButtonPair = () => {
+const MpcButtonPair = ({left, right}) => {
 
   // Tone States
   const [note1, setNote1] = useState(notes[0])
@@ -112,9 +112,9 @@ const MpcButtonPair = () => {
 const Mpc = () => {
   return (
     <div className = 'mpc-buttons'>
-      <MpcButtonPair />
-      <MpcButtonPair />
-      <MpcButtonPair />
+      <MpcButtonPair left={"t"} right={"u"}/>
+      <MpcButtonPair left={"f"} right={"j"}/>
+      <MpcButtonPair left={"v"} right={"n"}/>
     </div>
   )
 }

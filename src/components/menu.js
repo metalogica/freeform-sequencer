@@ -13,15 +13,15 @@ const Menu = () => {
     <React.Fragment>
       <HashRouter>
         <div className = 'container'>
-          <Route exact path ="/" component={ Mpc }/>
+          <Route exact path ="/" component={ Sequencer }/>
           <Route path ="/mic" component={ Mic }/>
-          <Route path ="/sequencer" component={ Sequencer }/>
+          <Route path ="/mpc" component={ Mpc }/>
         </div>
 
         <div className="menu">
           <ul>
             <li style = {{ fontSize: "30px" }}>
-              <NavLink to = "/"> <BiGridVertical/> </NavLink>
+              <NavLink to = "/"> <BsFillPlayFill/> </NavLink>
             </li>
             <div className="vertical-divider"></div>
             <li style = {{ fontSize: "20px" }}>
@@ -29,7 +29,7 @@ const Menu = () => {
             </li>
             <div className="vertical-divider"></div>
             <li style = {{ fontSize: "30px" }}>
-              <NavLink to = "/sequencer"> <BsFillPlayFill/> </NavLink>
+              <NavLink to = "/mpc"> <BiGridVertical/> </NavLink>
             </li>
           </ul>
         </div>

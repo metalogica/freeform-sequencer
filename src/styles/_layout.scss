@@ -6,9 +6,9 @@ body {
 .container {
   display: flex;
   align-items: center;
-  justify-content: center;
   padding: 10px;
   min-height: 465px;
+  overflow-x: auto;
 }
 
 a:visited {
