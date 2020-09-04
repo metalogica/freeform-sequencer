@@ -1,4 +1,5 @@
 import { MembraneSynth, MetalSynth, AMSynth, MonoSynth } from "tone"
+import firebase from 'firebase'
 
 // Init Synths
 export const Memsynth = new MembraneSynth().toDestination()
@@ -40,3 +41,5 @@ export const synths = [
   { value: AmSynth, label: 'AM' },
   { value: MonSynth, label: 'Mono' },
 ]
+
+// Firebase

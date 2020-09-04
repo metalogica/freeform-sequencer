@@ -3,6 +3,13 @@ import { Collapse } from 'react-collapse'
 import Select from 'react-select'
 import { notes, octaves, synths } from '../data/synth-data'
 
+const selectStyle = {
+  valueContainer: () => ({
+    width: "100px",
+    paddingLeft: "20px",
+  })
+}
+
 const MpcButtonPair = ({left, right}) => {
 
   // Tone States
@@ -73,36 +80,42 @@ const MpcButtonPair = ({left, right}) => {
       </div>
       <Collapse isOpened={menuOpened1}>
         <Select
+          styles={selectStyle}
+          options={synths}
+          value={synth1}
+          onChange={selectedOption => setSynth1(selectedOption)}
+        />
+        <Select
+          styles={selectStyle}
           options={notes}
           value={note1}
           onChange={selectedOption => setNote1(selectedOption)}
         />
         <Select
+          styles={selectStyle}
           options={octaves}
           value={octave1}
           onChange={selectedOption => setOctave1(selectedOption)}
         />
-        <Select
-          options={synths}
-          value={synth1}
-          onChange={selectedOption => setSynth1(selectedOption)}
-        />
       </Collapse>
       <Collapse isOpened={menuOpened2}>
         <Select
+          styles={selectStyle}
+          options={synths}
+          value={synth2}
+          onChange={selectedOption => setSynth2(selectedOption)}
+        />
+        <Select
+          styles={selectStyle}
           options={notes}
           value={note2}
           onChange={selectedOption => setNote2(selectedOption)}
         />
         <Select
+          styles={selectStyle}
           options={octaves}
           value={octave2}
           onChange={selectedOption => setOctave2(selectedOption)}
-        />
-        <Select
-          options={synths}
-          value={synth2}
-          onChange={selectedOption => setSynth2(selectedOption)}
         />
       </Collapse>
     </React.Fragment>
