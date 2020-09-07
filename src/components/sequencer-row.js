@@ -3,6 +3,7 @@ import Select from 'react-select';
 import { FiMoreVertical } from 'react-icons/fi'
 import SequencerNode from './sequencer-node'
 import { notes, octaves, synths } from '../data/synth-data'
+import Switch from '@material-ui/core/Switch';
 
 const selectStyle = {
   valueContainer: () => ({
@@ -17,6 +18,9 @@ const SequencerRow = ({beat}) => {
   const [note, setNote] = useState(notes[0])
   const [octave, setOctave] = useState(octaves[0])
   const [synth, setSynth] = useState(synths[0])
+
+  // Switch State
+  const [switchState, changeSwitch] = useState(true)
 
   return (
     <React.Fragment>
@@ -39,19 +43,14 @@ const SequencerRow = ({beat}) => {
           value={octave}
           onChange={selectedOption => setOctave(selectedOption)}
         />
-        
-        <div>
-          <input
-            className="switch" // react-switch-checkbox
-            id={`switch`} // react-switch-new
-            type="checkbox"
-          />
-          <label
-            className="switch-label" // react-switch-label
-            htmlFor={`switch`} // react-switch-new
-          >
-            <span className={`switch-button`} /> {/* react switch button*/}
-          </label>
+
+        <div className="switch-container">
+          <Switch
+            checked={switchState}
+            onChange={() => changeSwitch(!switchState)}
+            color="default"
+            size="small"
+            />
         </div>
       </div>
 
