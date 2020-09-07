@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { FiMic } from 'react-icons/fi';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { BiGridVertical } from 'react-icons/bi';
@@ -10,8 +10,6 @@ import Sequencer from './sequencer'
 const Menu = () => {
 
   const [content, changeContent] = useState(1)
-
-  console.log(content)
 
   return (
     <React.Fragment>
