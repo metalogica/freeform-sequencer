@@ -7,8 +7,10 @@ body {
   display: flex;
   align-items: center;
   padding: 10px;
-  min-height: 465px;
+  margin-top: 20px;
   overflow-x: auto;
+  overflow: visible;
+  min-height: 465px;
 }
 
 a:visited {

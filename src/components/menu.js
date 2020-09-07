@@ -7,15 +7,15 @@ import Mic from './mic';
 import Mpc from './mpc';
 import Sequencer from './sequencer'
 
-
 const Menu = () => {
+
   return (
     <React.Fragment>
       <HashRouter>
         <div className = 'container'>
-          <Route exact path ="/" component={ Sequencer }/>
-          <Route path ="/mic" component={ Mic }/>
-          <Route path ="/mpc" component={ Mpc }/>
+          <Route exact path ="/" component={ Sequencer } />
+          <Route path ="/mic" component={ Mic } />
+          <Route path ="/mpc" component={ Mpc } />
         </div>
 
         <div className="menu">

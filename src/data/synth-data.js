@@ -1,5 +1,5 @@
 import { MembraneSynth, MetalSynth, AMSynth, MonoSynth } from "tone"
-import firebase from 'firebase'
+// import firebase from 'firebase'
 
 // Init Synths
 export const Memsynth = new MembraneSynth().toDestination()
