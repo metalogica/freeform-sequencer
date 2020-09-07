@@ -31,5 +31,3 @@ const SequencerNode = ({beat, note, octave, synth, spot}) => {
 }
 
 export default SequencerNode
-
-// "audio-node active"

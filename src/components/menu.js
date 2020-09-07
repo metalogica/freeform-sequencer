@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState} from 'react';
 import { FiMic } from 'react-icons/fi';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { BiGridVertical } from 'react-icons/bi';
@@ -9,27 +9,31 @@ import Sequencer from './sequencer'
 
 const Menu = () => {
 
+  const [content, changeContent] = useState(1)
+
+  console.log(content)
+
   return (
     <React.Fragment>
       <HashRouter>
         <div className = 'container'>
-          <Route exact path ="/" component={ Sequencer } />
+          <Route exact path ="/" component={ Sequencer }/>
           <Route path ="/mic" component={ Mic } />
           <Route path ="/mpc" component={ Mpc } />
         </div>
 
         <div className="menu">
           <ul>
-            <li style = {{ fontSize: "30px" }}>
-              <NavLink to = "/"> <BsFillPlayFill/> </NavLink>
+            <li style = {{ fontSize: "30px" }} onClick={()=>changeContent(1)}>
+              <NavLink to = "/" style={ content === 1 ? {color: "white" }: {}}> <BsFillPlayFill/> </NavLink>
             </li>
             <div className="vertical-divider"></div>
-            <li style = {{ fontSize: "20px" }}>
-              <NavLink to = "/mic"> <FiMic/> </NavLink>
+            <li style = {{ fontSize: "20px" }} onClick={()=>changeContent(2)}>
+              <NavLink to = "/mic" style={ content === 2 ? {color: "white" }: {}}> <FiMic/> </NavLink>
             </li>
             <div className="vertical-divider"></div>
-            <li style = {{ fontSize: "30px" }}>
-              <NavLink to = "/mpc"> <BiGridVertical/> </NavLink>
+            <li style = {{ fontSize: "30px" }} onClick={()=>changeContent(3)}>
+              <NavLink to = "/mpc" style={ content === 3 ? {color: "white" }: {}}> <BiGridVertical/> </NavLink>
             </li>
           </ul>
         </div>
