@@ -6,10 +6,28 @@ import { Route, NavLink, HashRouter } from "react-router-dom";
 import Mic from './mic';
 import Mpc from './mpc';
 import Sequencer from './sequencer'
+import { fireData } from '../data/synth-data'
 
 const Menu = () => {
 
   const [content, changeContent] = useState(1)
+
+  const fileName='DrumSounds/Akai_MPC-X__36kick.mp3'
+
+  const dataRef = fireData.ref(fileName)
+
+  console.log(dataRef.getDownloadURL().then(function(url) {
+    console.log(url)
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = function(event) {
+      var blob = xhr.response;
+    };
+    xhr.open('GET', url);
+    xhr.send();
+  }).catch(function(error){
+    console.log(error)
+  }))
 
   return (
     <React.Fragment>

@@ -1,0 +1,7 @@
+[
+  {
+    "origin": ["http://localhost:3000/", "https://vibrant-dubinsky-2bb5fe.netlify.app/"],
+    "method": ["GET"],
+    "maxAgeSeconds": 3600
+  }
+]

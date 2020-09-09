@@ -1,5 +1,6 @@
-import { MembraneSynth, MetalSynth, AMSynth, MonoSynth } from "tone"
-// import firebase from 'firebase'
+import { MembraneSynth, MetalSynth, AMSynth, MonoSynth } from 'tone'
+import firebase from 'firebase/app'
+import 'firebase/storage'
 
 // Init Synths
 export const Memsynth = new MembraneSynth().toDestination()
@@ -43,3 +44,17 @@ export const synths = [
 ]
 
 // Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyBCaC47Uiu6JN0HM38StwBfOFE5LCoXpL4",
+  authDomain: "samplersequencer.firebaseapp.com",
+  databaseURL: "https://samplersequencer.firebaseio.com",
+  projectId: "samplersequencer",
+  storageBucket: "samplersequencer.appspot.com",
+  messagingSenderId: "594679633001",
+  appId: "1:594679633001:web:3954ed93de15067e3afef8",
+  measurementId: "G-2WBTZ2QF79"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+export const fireData = firebase.storage()
