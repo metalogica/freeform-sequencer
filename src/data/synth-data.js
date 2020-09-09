@@ -60,10 +60,20 @@ firebase.initializeApp(firebaseConfig);
 export const firestore = firebase.storage()
 
 export let drumSounds = []
-const fileRef = firestore.ref('DrumSounds')
-fileRef.listAll().then(function(res) {
+const drumref = firestore.ref('DrumSounds')
+drumref.listAll().then(function(res) {
   res.items.forEach(function(itemRef) {
     drumSounds.push(itemRef.name.split(".")[0])
+  });
+}).catch(function(error) {
+  console.log(error)
+});
+
+export let citizenDjSounds = []
+const citizenref = firestore.ref('CitizenDJ/Dialect Samples')
+citizenref.listAll().then(function(res) {
+  res.items.forEach(function(itemRef) {
+    citizenDjSounds.push(itemRef.name.split("_afccal")[0])
   });
 }).catch(function(error) {
   console.log(error)

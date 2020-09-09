@@ -6,7 +6,7 @@ import { Route, NavLink, HashRouter } from "react-router-dom";
 import Mic from './mic';
 import Mpc from './mpc';
 import Sequencer from './sequencer'
-import { firestore, drumSounds } from '../data/synth-data'
+import { firestore, citizenDjSounds } from '../data/synth-data'
 
 const Menu = () => {
 
@@ -28,9 +28,6 @@ const Menu = () => {
     // }).catch(function(error){
     //   console.log(error)
     // }))
-
-  // Firebase code to get metadata
-  console.log(drumSounds)
 
   return (
     <React.Fragment>
