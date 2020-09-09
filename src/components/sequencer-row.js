@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Select from 'react-select';
 import { FiMoreVertical } from 'react-icons/fi'
 import SequencerNode from './sequencer-node'
-import { notes, octaves, synths } from '../data/synth-data'
+import { notes, octaves, synths, drumSounds } from '../data/synth-data'
 import Switch from '@material-ui/core/Switch';
 
 const selectStyle = {
@@ -25,24 +25,29 @@ const SequencerRow = ({beat}) => {
   return (
     <React.Fragment>
       <div className="select-container">
-        <Select
+      { switchState ?
+        <>
+          <Select
           styles={selectStyle}
           options={synths}
           value={synth}
           onChange={selectedOption => setSynth(selectedOption)}
-        />
-        <Select
+          />
+          <Select
           styles={selectStyle}
           options={notes}
           value={note}
           onChange={selectedOption => setNote(selectedOption)}
-        />
-        <Select
+          />
+          <Select
           styles={selectStyle}
           options={octaves}
           value={octave}
           onChange={selectedOption => setOctave(selectedOption)}
-        />
+          />
+        </> :
+        <p>once values are a hash, replace with select of sounds</p>
+      }
 
         <div className="switch-container">
           <Switch

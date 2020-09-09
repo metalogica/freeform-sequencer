@@ -59,6 +59,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 export const firestore = firebase.storage()
 
+// needs to be hash
+
 export let drumSounds = []
 const drumref = firestore.ref('DrumSounds')
 drumref.listAll().then(function(res) {
@@ -68,6 +70,8 @@ drumref.listAll().then(function(res) {
 }).catch(function(error) {
   console.log(error)
 });
+
+// needs to be hash
 
 export let citizenDjSounds = []
 const citizenref = firestore.ref('CitizenDJ/Dialect Samples')
