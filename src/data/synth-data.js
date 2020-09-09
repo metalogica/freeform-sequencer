@@ -57,4 +57,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-export const fireData = firebase.storage()
+export const firestore = firebase.storage()
+
+export let drumSounds = []
+const fileRef = firestore.ref('DrumSounds')
+fileRef.listAll().then(function(res) {
+  res.items.forEach(function(itemRef) {
+    drumSounds.push(itemRef.name.split(".")[0])
+  });
+}).catch(function(error) {
+  console.log(error)
+});
