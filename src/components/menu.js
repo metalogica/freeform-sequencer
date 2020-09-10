@@ -11,23 +11,6 @@ const Menu = () => {
 
   const [content, changeContent] = useState(1)
 
-  // Firebase sample code to get download link
-    // const fileName='DrumSounds/Akai_MPC-X__36kick.mp3'
-    // const dataRef = fireData.ref(fileName)
-    //
-    // console.log(dataRef.getDownloadURL().then(function(url) {
-    //   console.log(url)
-    //   var xhr = new XMLHttpRequest();
-    //   xhr.responseType = 'blob';
-    //   xhr.onload = function(event) {
-    //     var blob = xhr.response;
-    //   };
-    //   xhr.open('GET', url);
-    //   xhr.send();
-    // }).catch(function(error){
-    //   console.log(error)
-    // }))
-
   return (
     <React.Fragment>
       <HashRouter>
