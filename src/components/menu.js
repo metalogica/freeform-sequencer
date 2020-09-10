@@ -42,10 +42,12 @@ const Menu = () => {
             <li style = {{ fontSize: "30px" }} onClick={()=>changeContent(1)}>
               <NavLink to = "/" style={ content === 1 ? {color: "white" }: {}}> <BsFillPlayFill/> </NavLink>
             </li>
-            <div className="vertical-divider"></div>
-            <li style = {{ fontSize: "20px" }} onClick={()=>changeContent(2)}>
-              <NavLink to = "/mic" style={ content === 2 ? {color: "white" }: {}}> <FiMic/> </NavLink>
-            </li>
+            {
+            // <div className="vertical-divider"></div>
+            // <li style = {{ fontSize: "20px" }} onClick={()=>changeContent(2)}>
+            //   <NavLink to = "/mic" style={ content === 2 ? {color: "white" }: {}}> <FiMic/> </NavLink>
+            // </li>
+            }
             <div className="vertical-divider"></div>
             <li style = {{ fontSize: "30px" }} onClick={()=>changeContent(3)}>
               <NavLink to = "/mpc" style={ content === 3 ? {color: "white" }: {}}> <BiGridVertical/> </NavLink>
