@@ -59,26 +59,26 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 export const firestore = firebase.storage()
 
-// needs to be hash
-
-export let drumSounds = []
+let drumSounds = []
 const drumref = firestore.ref('DrumSounds')
 drumref.listAll().then(function(res) {
   res.items.forEach(function(itemRef) {
-    drumSounds.push(itemRef.name.split(".")[0])
+    drumSounds.push({
+      label: `${itemRef.name.split("_")[0]} ${itemRef.name.split("__")[1]}`.replace("_", " ").replace(".mp3",""),
+      value: itemRef.name})
   });
 }).catch(function(error) {
   console.log(error)
 });
 
-// needs to be hash
-
-export let citizenDjSounds = []
+let citizenDjSounds = []
 const citizenref = firestore.ref('CitizenDJ/Dialect Samples')
 citizenref.listAll().then(function(res) {
   res.items.forEach(function(itemRef) {
-    citizenDjSounds.push(itemRef.name.split("_afccal")[0])
+    citizenDjSounds.push({label: itemRef.name.split(".")[0], value: itemRef.name})
   });
 }).catch(function(error) {
   console.log(error)
 });
+
+export { drumSounds, citizenDjSounds }

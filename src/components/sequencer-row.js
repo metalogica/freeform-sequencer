@@ -5,12 +5,6 @@ import SequencerNode from './sequencer-node'
 import { notes, octaves, synths, drumSounds } from '../data/synth-data'
 import Switch from '@material-ui/core/Switch';
 
-const selectStyle = {
-  valueContainer: () => ({
-    width: "100px",
-    paddingLeft: "20px"
-  })
-}
 
 const SequencerRow = ({beat}) => {
 
@@ -18,9 +12,18 @@ const SequencerRow = ({beat}) => {
   const [note, setNote] = useState(notes[0])
   const [octave, setOctave] = useState(octaves[0])
   const [synth, setSynth] = useState(synths[0])
+  const [drumSound, setDrumSound] = useState(drumSounds[0])
 
   // Switch State
   const [switchState, changeSwitch] = useState(true)
+
+  // Switch Styling
+  const selectStyle = {
+    valueContainer: () => ({
+      width: switchState ? "100px" : "418px",
+      paddingLeft: "20px"
+    })
+  }
 
   return (
     <React.Fragment>
@@ -46,7 +49,12 @@ const SequencerRow = ({beat}) => {
           onChange={selectedOption => setOctave(selectedOption)}
           />
         </> :
-        <p>once values are a hash, replace with select of sounds</p>
+        <Select
+        styles={selectStyle}
+        options={drumSounds}
+        value={drumSound}
+        onChange={selectedOption => setDrumSound(selectedOption)}
+        />
       }
 
         <div className="switch-container">
@@ -65,100 +73,148 @@ const SequencerRow = ({beat}) => {
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {0}/>
+          spot = {0}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {1}/>
+          spot = {1}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {2}/>
+          spot = {2}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {3}/>
+          spot = {3}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
         <FiMoreVertical style = {{ fontSize: "20px"}} />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {4}/>
+          spot = {4}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {5}/>
+          spot = {5}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {6}/>
+          spot = {6}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {7}/>
+          spot = {7}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
         <FiMoreVertical style = {{ fontSize: "20px"}} />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {8}/>
+          spot = {8}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {9}/>
+          spot = {9}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {10}/>
+          spot = {10}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {11}/>
+          spot = {11}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
         <FiMoreVertical style = {{ fontSize: "20px"}} />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {12}/>
+          spot = {12}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {13}/>
+          spot = {13}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {14}/>
+          spot = {14}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
         <SequencerNode
           beat = {beat}
           note = {note}
           octave = {octave}
           synth = {synth}
-          spot = {15}/>
+          spot = {15}
+          switchState = {switchState}
+          drum = {drumSound}
+          />
       </div>
     </React.Fragment>
   )
