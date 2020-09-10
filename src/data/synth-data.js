@@ -76,7 +76,7 @@ const citizenref = firestore.ref('CitizenDJ/Dialect Samples')
 citizenref.listAll().then(function(res) {
   res.items.forEach(function(itemRef) {
     citizenDjSounds.push({
-      label: `${itemRef.name.split(".")[0]}`.replace(/-/g, " ").split("_")[0],
+      label: `${itemRef.name.split("_")[0]} ${itemRef.name.split("_")[2]}`.replace(/-/g, " "),
       value: itemRef.name})
   });
 }).catch(function(error) {

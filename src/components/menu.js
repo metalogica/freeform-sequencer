@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { BiGridVertical } from 'react-icons/bi';
 import { Route, NavLink, HashRouter } from "react-router-dom";
-import Mic from './mic';
+// import Mic from './mic';
 import Mpc from './mpc';
 import Sequencer from './sequencer'
 

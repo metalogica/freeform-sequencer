@@ -30,14 +30,14 @@ const MpcButtonPair = ({left, right}) => {
   // Switch Styling
   const selectStyle1 = {
     valueContainer: () => ({
-      width: switchState1 ? "111px" : "450px",
+      width: switchState1 ? "125px" : "500px",
       paddingLeft: "20px"
     })
   }
 
   const selectStyle2 = {
     valueContainer: () => ({
-      width: switchState2 ? "111px" : "450px",
+      width: switchState2 ? "125px" : "500px",
       paddingLeft: "20px"
     })
   }
