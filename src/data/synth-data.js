@@ -64,7 +64,7 @@ const drumref = firestore.ref('DrumSounds')
 drumref.listAll().then(function(res) {
   res.items.forEach(function(itemRef) {
     drumSounds.push({
-      label: `${itemRef.name.split("_")[0]} ${itemRef.name.split("__")[1]}`.replace("_", " ").replace(".mp3",""),
+      label: `${itemRef.name.split("_")[0]} ${itemRef.name.split("__")[1]}`.replace(/_/g, " ").replace(/.mp3/g,""),
       value: itemRef.name})
   });
 }).catch(function(error) {
@@ -75,7 +75,9 @@ let citizenDjSounds = []
 const citizenref = firestore.ref('CitizenDJ/Dialect Samples')
 citizenref.listAll().then(function(res) {
   res.items.forEach(function(itemRef) {
-    citizenDjSounds.push({label: itemRef.name.split(".")[0], value: itemRef.name})
+    citizenDjSounds.push({
+      label: `${itemRef.name.split(".")[0]}`.replace(/-/g, " ").split("_")[0],
+      value: itemRef.name})
   });
 }).catch(function(error) {
   console.log(error)
