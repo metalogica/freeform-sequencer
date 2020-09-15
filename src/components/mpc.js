@@ -55,7 +55,6 @@ const MpcButtonPair = ({left, right}) => {
     }
     if (!switchOn && dj) {
       const sound = sessionStorage.getItem(dj)
-      console.log(dj)
       const audio = new Audio(sound)
       audio.play()
     }
@@ -119,13 +118,13 @@ const MpcButtonPair = ({left, right}) => {
         <div
           className = {menuOpened1 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
-            handleDown(synth1.value, note1.value, octave1.value, `CitizenDJ/Dialect Samples/${dj1.value}`, switchState1)
+            handleDown(synth1.value, note1.value, octave1.value, dj1 ? `CitizenDJ/Dialect Samples/${dj1.value}` : "", switchState1)
           }}
           onMouseUp={()=>{
             handleUp(setMenu1, menuOpened1, setMenu2)
           }}
           onTouchStart={()=> {
-            handleDown(synth1.value, note1.value, octave1.value, `CitizenDJ/Dialect Samples/${dj1.value}`, switchState1)
+            handleDown(synth1.value, note1.value, octave1.value, dj1 ? `CitizenDJ/Dialect Samples/${dj1.value}` : "", switchState1)
           }}
           onTouchEnd={()=>{
             handleUp(setMenu1, menuOpened1, setMenu2)
@@ -134,13 +133,13 @@ const MpcButtonPair = ({left, right}) => {
         <div
           className = {menuOpened2 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
-            handleDown(synth2.value, note2.value, octave2.value, `CitizenDJ/Dialect Samples/${dj2.value}`, switchState2)
+            handleDown(synth2.value, note2.value, octave2.value, dj2 ? `CitizenDJ/Dialect Samples/${dj2.value}` : "", switchState2)
           }}
           onMouseUp={()=>{
             handleUp(setMenu2, menuOpened2, setMenu1)
           }}
           onTouchStart={()=> {
-            handleDown(synth2.value, note2.value, octave2.value, `CitizenDJ/Dialect Samples/${dj2.value}`, switchState2)
+            handleDown(synth2.value, note2.value, octave2.value, dj2 ? `CitizenDJ/Dialect Samples/${dj2.value}` : "", switchState2)
           }}
           onTouchEnd={()=>{
             handleUp(setMenu2, menuOpened2, setMenu1)
