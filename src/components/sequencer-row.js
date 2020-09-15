@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import Select from 'react-select';
+import React, { useState, useEffect } from 'react'
+import Select from 'react-select'
 import { FiMoreVertical } from 'react-icons/fi'
 import SequencerNode from './sequencer-node'
-import { notes, octaves, synths, drumSounds } from '../data/synth-data'
-import Switch from '@material-ui/core/Switch';
+import { notes, octaves, synths, drumSounds, firestore } from '../data/synth-data'
+import Switch from '@material-ui/core/Switch'
+import axios from 'axios'
 
-
-const SequencerRow = ({beat}) => {
+const SequencerRow = ({ beat }) => {
 
   // Select States
   const [note, setNote] = useState(notes[0])
@@ -24,6 +24,29 @@ const SequencerRow = ({beat}) => {
       paddingLeft: "20px"
     })
   }
+
+  useEffect(()=> {
+    if(drumSound) {
+      const fileName=`DrumSounds/${drumSound.value}`
+      const dataRef = firestore.ref(fileName)
+      dataRef.getDownloadURL().then(function(url) {
+        axios({
+          responseType: 'blob',
+          url: url,
+          method: 'get',
+        }).then((res) => {
+          const reader = new FileReader();
+          reader.loadend = () => {
+            const sound = reader.result.toString();
+            sessionStorage.setItem(fileName, sound);
+          }
+          reader.readAsDataURL(res.data);
+        })
+      }).catch(function(error){
+        console.log(error)
+      })
+    }
+  })
 
   return (
     <React.Fragment>
@@ -75,7 +98,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {0}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
         <SequencerNode
           beat = {beat}
@@ -84,7 +107,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {1}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
         <SequencerNode
           beat = {beat}
@@ -93,7 +116,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {2}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
         <SequencerNode
           beat = {beat}
@@ -102,7 +125,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {3}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
         <FiMoreVertical style = {{ fontSize: "20px"}} />
         <SequencerNode
@@ -112,7 +135,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {4}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
         <SequencerNode
           beat = {beat}
@@ -121,7 +144,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {5}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
         <SequencerNode
           beat = {beat}
@@ -130,7 +153,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {6}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
         <SequencerNode
           beat = {beat}
@@ -139,7 +162,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {7}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
         <FiMoreVertical style = {{ fontSize: "20px"}} />
         <SequencerNode
@@ -149,7 +172,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {8}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
         <SequencerNode
           beat = {beat}
@@ -158,7 +181,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {9}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
         <SequencerNode
           beat = {beat}
@@ -167,7 +190,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {10}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
         <SequencerNode
           beat = {beat}
@@ -176,7 +199,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {11}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
         <FiMoreVertical style = {{ fontSize: "20px"}} />
         <SequencerNode
@@ -186,7 +209,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {12}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
         <SequencerNode
           beat = {beat}
@@ -195,7 +218,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {13}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
         <SequencerNode
           beat = {beat}
@@ -204,7 +227,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {14}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
         <SequencerNode
           beat = {beat}
@@ -213,7 +236,7 @@ const SequencerRow = ({beat}) => {
           synth = {synth}
           spot = {15}
           switchState = {switchState}
-          drum = {drumSound}
+          drum = {drumSound ? `DrumSounds/${drumSound.value}` : ""}
           />
       </div>
     </React.Fragment>
