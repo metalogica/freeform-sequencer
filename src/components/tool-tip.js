@@ -23,7 +23,8 @@ const tip =
     </p>
     <p>
       Sequencer: You can change the BPM, mess with different sounds and the switch gives
-      access to some classic percussion sounds.
+      access to some classic percussion sounds. Play controls are on the top by the
+      bpm box.
     </p>
     <p>
       MPC: Hold down a trigger to open the menu to change the sound - experiment
