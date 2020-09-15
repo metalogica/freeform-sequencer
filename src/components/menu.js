@@ -6,6 +6,7 @@ import { Route, NavLink, HashRouter } from "react-router-dom";
 // import Mic from './mic';
 import Mpc from './mpc';
 import Sequencer from './sequencer'
+import HoverTip from './tool-tip'
 
 const Menu = () => {
 
@@ -13,6 +14,8 @@ const Menu = () => {
 
   return (
     <React.Fragment>
+      <HoverTip />
+
       <HashRouter>
         <div className = 'container'>
           <Route exact path ="/" component={ Sequencer }/>
