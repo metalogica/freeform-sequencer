@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Collapse } from 'react-collapse'
 import Select from 'react-select'
-import { notes, octaves, synths, citizenDjSounds } from '../data/synth-data'
+import { notes, octaves, synths, citizenDjSounds, firestore } from '../data/synth-data'
 import Switch from '@material-ui/core/Switch';
+import axios from 'axios'
 
 const MpcButtonPair = ({left, right}) => {
 
@@ -45,11 +46,19 @@ const MpcButtonPair = ({left, right}) => {
   // Events MGMT
   let t0
 
-  const handleDown = (synth, note, octave) => {
+  const handleDown = (synth, note, octave, dj, switchOn) => {
     t0 = performance.now()
     setMenu1(false)
     setMenu2(false)
-    synth.triggerAttackRelease(`${note}${octave}`, "2n")
+    if (switchOn) {
+      synth.triggerAttackRelease(`${note}${octave}`, "2n")
+    }
+    if (!switchOn && dj) {
+      const sound = sessionStorage.getItem(dj)
+      console.log(dj)
+      const audio = new Audio(sound)
+      audio.play()
+    }
   }
 
   const handleUp = (menuToggle, menuOpened, menuNonToggle) => {
@@ -60,19 +69,63 @@ const MpcButtonPair = ({left, right}) => {
     }
   }
 
+  useEffect(()=> {
+    if(dj1) {
+      const fileName=`CitizenDJ/Dialect Samples/${dj1.value}`
+      const dataRef = firestore.ref(fileName)
+      dataRef.getDownloadURL().then(function(url) {
+        axios({
+          responseType: 'blob',
+          url: url,
+          method: 'get',
+        }).then((res) => {
+          const reader = new FileReader()
+          reader.addEventListener("loadend", () => {
+            sessionStorage.setItem(fileName, reader.result.toString())
+          })
+          reader.readAsDataURL(res.data)
+        })
+      }).catch(function(error){
+        console.log(error)
+      })
+    }
+  })
+
+  useEffect(()=> {
+    if(dj2) {
+      const fileName=`CitizenDJ/Dialect Samples/${dj2.value}`
+      const dataRef = firestore.ref(fileName)
+      dataRef.getDownloadURL().then(function(url) {
+        axios({
+          responseType: 'blob',
+          url: url,
+          method: 'get',
+        }).then((res) => {
+          const reader = new FileReader()
+          reader.addEventListener("loadend", () => {
+            sessionStorage.setItem(fileName, reader.result.toString())
+          })
+          reader.readAsDataURL(res.data)
+        })
+      }).catch(function(error){
+        console.log(error)
+      })
+    }
+  })
+
   return (
     <React.Fragment>
       <div className="button-container">
         <div
           className = {menuOpened1 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
-            handleDown(synth1.value, note1.value, octave1.value)
+            handleDown(synth1.value, note1.value, octave1.value, `CitizenDJ/Dialect Samples/${dj1.value}`, switchState1)
           }}
           onMouseUp={()=>{
             handleUp(setMenu1, menuOpened1, setMenu2)
           }}
           onTouchStart={()=> {
-            handleDown(synth1.value, note1.value, octave1.value)
+            handleDown(synth1.value, note1.value, octave1.value, `CitizenDJ/Dialect Samples/${dj1.value}`, switchState1)
           }}
           onTouchEnd={()=>{
             handleUp(setMenu1, menuOpened1, setMenu2)
@@ -81,13 +134,13 @@ const MpcButtonPair = ({left, right}) => {
         <div
           className = {menuOpened2 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
-            handleDown(synth2.value, note2.value, octave2.value)
+            handleDown(synth2.value, note2.value, octave2.value, `CitizenDJ/Dialect Samples/${dj2.value}`, switchState2)
           }}
           onMouseUp={()=>{
             handleUp(setMenu2, menuOpened2, setMenu1)
           }}
           onTouchStart={()=> {
-            handleDown(synth2.value, note2.value, octave2.value)
+            handleDown(synth2.value, note2.value, octave2.value, `CitizenDJ/Dialect Samples/${dj2.value}`, switchState2)
           }}
           onTouchEnd={()=>{
             handleUp(setMenu2, menuOpened2, setMenu1)

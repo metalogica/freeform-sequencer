@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
 import { FiMoreVertical } from 'react-icons/fi'
 import SequencerNode from './sequencer-node'
-import { notes, octaves, synths, drumSounds, firestore } from '../data/synth-data'
 import Switch from '@material-ui/core/Switch'
 import axios from 'axios'
+import { notes, octaves, synths, drumSounds, firestore } from '../data/synth-data'
 
 const SequencerRow = ({ beat }) => {
 
@@ -35,12 +35,11 @@ const SequencerRow = ({ beat }) => {
           url: url,
           method: 'get',
         }).then((res) => {
-          const reader = new FileReader();
-          reader.loadend = () => {
-            const sound = reader.result.toString();
-            sessionStorage.setItem(fileName, sound);
-          }
-          reader.readAsDataURL(res.data);
+          const reader = new FileReader()
+          reader.addEventListener("loadend", () => {
+            sessionStorage.setItem(fileName, reader.result.toString())
+          })
+          reader.readAsDataURL(res.data)
         })
       }).catch(function(error){
         console.log(error)
