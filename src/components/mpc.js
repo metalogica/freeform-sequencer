@@ -1,14 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Collapse } from 'react-collapse'
 import Select from 'react-select'
-import { notes, octaves, synths } from '../data/synth-data'
-
-const selectStyle = {
-  valueContainer: () => ({
-    width: "100px",
-    paddingLeft: "20px",
-  })
-}
+import { notes, octaves, synths, citizenDjSounds, firestore } from '../data/synth-data'
+import Switch from '@material-ui/core/Switch';
+import axios from 'axios'
 
 const MpcButtonPair = ({left, right}) => {
 
@@ -22,18 +17,47 @@ const MpcButtonPair = ({left, right}) => {
   const [synth1, setSynth1] = useState(synths[0])
   const [synth2, setSynth2] = useState(synths[0])
 
+  const [dj1, setDj1] = useState(citizenDjSounds[0])
+  const [dj2, setDj2] = useState(citizenDjSounds[0])
+
   // Menu State
   const [menuOpened1, setMenu1] = useState(false)
   const [menuOpened2, setMenu2] = useState(false)
 
+  // Switch States
+  const [switchState1, changeSwitch1] = useState(true)
+  const [switchState2, changeSwitch2] = useState(true)
+
+  // Switch Styling
+  const selectStyle1 = {
+    valueContainer: () => ({
+      width: switchState1 ? "125px" : "500px",
+      paddingLeft: "20px"
+    })
+  }
+
+  const selectStyle2 = {
+    valueContainer: () => ({
+      width: switchState2 ? "125px" : "500px",
+      paddingLeft: "20px"
+    })
+  }
+
   // Events MGMT
   let t0
 
-  const handleDown = (synth, note, octave) => {
+  const handleDown = (synth, note, octave, dj, switchOn) => {
     t0 = performance.now()
     setMenu1(false)
     setMenu2(false)
-    synth.triggerAttackRelease(`${note}${octave}`, "2n")
+    if (switchOn) {
+      synth.triggerAttackRelease(`${note}${octave}`, "2n")
+    }
+    if (!switchOn && dj) {
+      const sound = sessionStorage.getItem(dj)
+      const audio = new Audio(sound)
+      audio.play()
+    }
   }
 
   const handleUp = (menuToggle, menuOpened, menuNonToggle) => {
@@ -44,19 +68,63 @@ const MpcButtonPair = ({left, right}) => {
     }
   }
 
+  useEffect(()=> {
+    if(dj1) {
+      const fileName=`CitizenDJ/Dialect Samples/${dj1.value}`
+      const dataRef = firestore.ref(fileName)
+      dataRef.getDownloadURL().then(function(url) {
+        axios({
+          responseType: 'blob',
+          url: url,
+          method: 'get',
+        }).then((res) => {
+          const reader = new FileReader()
+          reader.addEventListener("loadend", () => {
+            sessionStorage.setItem(fileName, reader.result.toString())
+          })
+          reader.readAsDataURL(res.data)
+        })
+      }).catch(function(error){
+        console.log(error)
+      })
+    }
+  })
+
+  useEffect(()=> {
+    if(dj2) {
+      const fileName=`CitizenDJ/Dialect Samples/${dj2.value}`
+      const dataRef = firestore.ref(fileName)
+      dataRef.getDownloadURL().then(function(url) {
+        axios({
+          responseType: 'blob',
+          url: url,
+          method: 'get',
+        }).then((res) => {
+          const reader = new FileReader()
+          reader.addEventListener("loadend", () => {
+            sessionStorage.setItem(fileName, reader.result.toString())
+          })
+          reader.readAsDataURL(res.data)
+        })
+      }).catch(function(error){
+        console.log(error)
+      })
+    }
+  })
+
   return (
     <React.Fragment>
       <div className="button-container">
         <div
           className = {menuOpened1 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
-            handleDown(synth1.value, note1.value, octave1.value)
+            handleDown(synth1.value, note1.value, octave1.value, dj1 ? `CitizenDJ/Dialect Samples/${dj1.value}` : "", switchState1)
           }}
           onMouseUp={()=>{
             handleUp(setMenu1, menuOpened1, setMenu2)
           }}
           onTouchStart={()=> {
-            handleDown(synth1.value, note1.value, octave1.value)
+            handleDown(synth1.value, note1.value, octave1.value, dj1 ? `CitizenDJ/Dialect Samples/${dj1.value}` : "", switchState1)
           }}
           onTouchEnd={()=>{
             handleUp(setMenu1, menuOpened1, setMenu2)
@@ -65,13 +133,13 @@ const MpcButtonPair = ({left, right}) => {
         <div
           className = {menuOpened2 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
-            handleDown(synth2.value, note2.value, octave2.value)
+            handleDown(synth2.value, note2.value, octave2.value, dj2 ? `CitizenDJ/Dialect Samples/${dj2.value}` : "", switchState2)
           }}
           onMouseUp={()=>{
             handleUp(setMenu2, menuOpened2, setMenu1)
           }}
           onTouchStart={()=> {
-            handleDown(synth2.value, note2.value, octave2.value)
+            handleDown(synth2.value, note2.value, octave2.value, dj2 ? `CitizenDJ/Dialect Samples/${dj2.value}` : "", switchState2)
           }}
           onTouchEnd={()=>{
             handleUp(setMenu2, menuOpened2, setMenu1)
@@ -79,44 +147,81 @@ const MpcButtonPair = ({left, right}) => {
         />
       </div>
       <Collapse isOpened={menuOpened1}>
-        <Select
-          styles={selectStyle}
-          options={synths}
-          value={synth1}
-          onChange={selectedOption => setSynth1(selectedOption)}
-        />
-        <Select
-          styles={selectStyle}
-          options={notes}
-          value={note1}
-          onChange={selectedOption => setNote1(selectedOption)}
-        />
-        <Select
-          styles={selectStyle}
-          options={octaves}
-          value={octave1}
-          onChange={selectedOption => setOctave1(selectedOption)}
-        />
+        { switchState1 ?
+          <>
+            <Select
+              styles={selectStyle1}
+              options={synths}
+              value={synth1}
+              onChange={selectedOption => setSynth1(selectedOption)}
+            />
+            <Select
+              styles={selectStyle1}
+              options={notes}
+              value={note1}
+              onChange={selectedOption => setNote1(selectedOption)}
+            />
+            <Select
+              styles={selectStyle1}
+              options={octaves}
+              value={octave1}
+              onChange={selectedOption => setOctave1(selectedOption)}
+            />
+          </> :
+          <Select
+            styles={selectStyle1}
+            options={citizenDjSounds}
+            value={dj1}
+            onChange={selectedOption => setDj1(selectedOption)}
+          />
+        }
+
+        <div className="switch-container">
+          <Switch
+            checked={switchState1}
+            onChange={() => changeSwitch1(!switchState1)}
+            color="default"
+            size="small"
+            />
+        </div>
       </Collapse>
       <Collapse isOpened={menuOpened2}>
+      { switchState2 ?
+        <>
+          <Select
+            styles={selectStyle2}
+            options={synths}
+            value={synth2}
+            onChange={selectedOption => setSynth2(selectedOption)}
+          />
+          <Select
+            styles={selectStyle2}
+            options={notes}
+            value={note2}
+            onChange={selectedOption => setNote2(selectedOption)}
+          />
+          <Select
+            styles={selectStyle2}
+            options={octaves}
+            value={octave2}
+            onChange={selectedOption => setOctave2(selectedOption)}
+          />
+        </> :
         <Select
-          styles={selectStyle}
-          options={synths}
-          value={synth2}
-          onChange={selectedOption => setSynth2(selectedOption)}
+          styles={selectStyle2}
+          options={citizenDjSounds}
+          value={dj2}
+          onChange={selectedOption => setDj2(selectedOption)}
         />
-        <Select
-          styles={selectStyle}
-          options={notes}
-          value={note2}
-          onChange={selectedOption => setNote2(selectedOption)}
-        />
-        <Select
-          styles={selectStyle}
-          options={octaves}
-          value={octave2}
-          onChange={selectedOption => setOctave2(selectedOption)}
-        />
+      }
+        <div className="switch-container">
+          <Switch
+            checked={switchState2}
+            onChange={() => changeSwitch2(!switchState2)}
+            color="default"
+            size="small"
+            />
+        </div>
       </Collapse>
     </React.Fragment>
   )

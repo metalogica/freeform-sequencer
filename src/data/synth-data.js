@@ -1,5 +1,6 @@
-import { MembraneSynth, MetalSynth, AMSynth, MonoSynth } from "tone"
-// import firebase from 'firebase'
+import { MembraneSynth, MetalSynth, AMSynth, MonoSynth } from 'tone'
+import firebase from 'firebase/app'
+import 'firebase/storage'
 
 // Init Synths
 export const Memsynth = new MembraneSynth().toDestination()
@@ -43,3 +44,43 @@ export const synths = [
 ]
 
 // Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyBCaC47Uiu6JN0HM38StwBfOFE5LCoXpL4",
+  authDomain: "samplersequencer.firebaseapp.com",
+  databaseURL: "https://samplersequencer.firebaseio.com",
+  projectId: "samplersequencer",
+  storageBucket: "samplersequencer.appspot.com",
+  messagingSenderId: "594679633001",
+  appId: "1:594679633001:web:3954ed93de15067e3afef8",
+  measurementId: "G-2WBTZ2QF79"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+export const firestore = firebase.storage()
+
+let drumSounds = []
+const drumref = firestore.ref('DrumSounds')
+drumref.listAll().then(function(res) {
+  res.items.forEach(function(itemRef) {
+    drumSounds.push({
+      label: `${itemRef.name.split("_")[0]} ${itemRef.name.split("__")[1]}`.replace(/_/g, " ").replace(/.mp3/g,""),
+      value: itemRef.name})
+  });
+}).catch(function(error) {
+  console.log(error)
+});
+
+let citizenDjSounds = []
+const citizenref = firestore.ref('CitizenDJ/Dialect Samples')
+citizenref.listAll().then(function(res) {
+  res.items.forEach(function(itemRef) {
+    citizenDjSounds.push({
+      label: `${itemRef.name.split("_")[0]} ${itemRef.name.split("_")[2]}`.replace(/-/g, " "),
+      value: itemRef.name})
+  });
+}).catch(function(error) {
+  console.log(error)
+});
+
+export { drumSounds, citizenDjSounds }
