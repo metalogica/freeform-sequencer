@@ -4,6 +4,8 @@ import Select from 'react-select'
 import { notes, octaves, synths, citizenDjSounds, firestore } from '../data/synth-data'
 import Switch from '@material-ui/core/Switch';
 import axios from 'axios'
+import CortexClient from '../CortexClient';
+new CortexClient().generateToken()
 
 const MpcButtonPair = ({left, right}) => {
 
