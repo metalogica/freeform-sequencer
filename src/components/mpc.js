@@ -5,7 +5,7 @@ import { notes, octaves, synths, citizenDjSounds, firestore } from '../data/synt
 import Switch from '@material-ui/core/Switch';
 import axios from 'axios'
 import CortexClient from '../CortexClient';
-new CortexClient().generateToken()
+new CortexClient()
 
 const MpcButtonPair = ({left, right}) => {
 
