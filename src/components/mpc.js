@@ -1,26 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import { Collapse } from 'react-collapse'
-import Select from 'react-select'
-import { notes, octaves, synths, citizenDjSounds, firestore } from '../data/synth-data'
+import React, { useState, useEffect } from 'react';
+import { Collapse } from 'react-collapse';
+import Select from 'react-select';
+import { notes, octaves, synths, citizenDjSounds, firestore } from '../data/synth-data';
 import Switch from '@material-ui/core/Switch';
-import axios from 'axios'
-// import CortexClient from '../CortexClient';
-// new CortexClient();
+import axios from 'axios';
+import CortexClient from '../CortexClient';
 
-const MpcButton = ({left, right}) => {
-
+const MpcButton = ({commandTrigger, left, right}) => {
   // Tone States
   const [note, setnote] = useState(notes[0])
-
   const [octave, setoctave] = useState(octaves[0])
-
   const [synth, setsynth] = useState(synths[0])
-
   const [dj, setdj] = useState(citizenDjSounds[0])
-
   // Menu State
   const [menuOpened1, setMenu1] = useState(false)
-
   // Switch States
   const [switchState1, changeSwitch1] = useState(true)
 
@@ -141,19 +134,26 @@ const MpcButton = ({left, right}) => {
 }
 
 const Mpc = () => {
+  const streamResponse = (message) => {
+    console.log(message);
+  }
+
+  const cortexClient = new CortexClient({streamResponse});
+  cortexClient.initConnection();
+
   return (
     <div className = 'mpc-buttons'>
       <div className='mpc-row'>
-        <MpcButton left={"r"} right={"i"}/>
-        <MpcButton left={"f"} right={"j"}/>
+        <MpcButton commandTrigger={'lift'} left={"r"} right={"i"}/>
+        <MpcButton commandTrigger={'drop'} left={"f"} right={"j"}/>
       </div>
       <div className='mpc-row'>
-        <MpcButton left={"r"} right={"i"}/>
-        <MpcButton left={"f"} right={"j"}/>
+        <MpcButton commandTrigger={'push'} left={"r"} right={"i"}/>
+        <MpcButton commandTrigger={'pull'} right={"j"}/>
       </div>
       <div className='mpc-row'>
-        <MpcButton left={"r"} right={"i"}/>
-        <MpcButton left={"f"} right={"j"}/>
+        <MpcButton commandTrigger={'rotateleft'} left={"r"} right={"i"}/>
+        <MpcButton commandTrigger={'rorateright'} right={"j"}/>
       </div>
     </div>
   )

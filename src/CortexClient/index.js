@@ -1,35 +1,64 @@
 class CortexClient  {
-  constructor() {
+  constructor({streamResponse}) {
+    this.streamResponse = streamResponse;
+
+    this.socket = new WebSocket('wss://localhost:6868');
+    this.cortexHeadset =  "EPOCX-E202014A";
     this.cortexClientId = process.env.REACT_APP_CORTEX_CLIENT_ID;
     this.cortexClientSecret = process.env.REACT_APP_CORTEX_CLIENT_SECRET;
     this.cortexToken = undefined;
     this.cortexSessionId = undefined;
     this.cortexStream = undefined;
+    this.connectionAttempts = 0;
+    this.ready = false;
+  }
 
-    this.socket = new WebSocket('wss://localhost:6868');
-    this.socket.onopen = (event) => {
-      setInterval(this.initConnection, 1000);
+  initConnection = () => {
+    let connectionHandler;
+    
+    this.socket.onopen = () => {
+      connectionHandler = setInterval(this.attemptConnection, 1000);
     };
+
     this.socket.onmessage = (event) => {
+      if (this.connectionAttempts >= 5 && this.ready !== true){
+        clearInterval(connectionHandler);
+        console.error(`
+          Unable to establish connection to Cortex API. Please check your keys are correct:\n
+          Cortex Client ID: ${this.cortexClientId}\n
+          Cortex Client Secret: ${this.cortexClientSecret}\n
+          Stage 1/3: Cortex Token: ${this.cortexToken}\n
+          Stage 2/3: Cortex Session ID: ${this.cortexSessionId}\n
+          Stage 3/3: Cortex Mental Command Stream: ${this.cortexStream}
+        `);
+      }
+
       const message = JSON.parse(event.data);
 
       if (message && message.result && message.result.cortexToken) {
-        console.log('should store cortex token', event)
+        // console.log('should store cortex token', event);
         this.cortexToken = message.result.cortexToken;
       } 
       else if (message && message.result && message.result.id) {
-        console.log('should store session', event)
+        // console.log('should store session', event)
         this.cortexSessionId = message.result.id;
       } 
       else if (message && message.result && message.result.success) {
-        console.log(event)
-        console.log('should store stream', event)
+        // console.log('should store stream', event);
         this.cortexStream = 'mentalCommand';
+        this.ready = true;
       }
-      else {
+      else if (message && message.com) {
+        if (this.ready === false) { 
+          console.log('Successfully established connection to Cortex Mental Command Stream.');
+          this.ready = true; 
+        }
+
         const command = message.com[0];
         const magnitude = message.com[1];
-        console.log('command', command, 'magnitude', magnitude);
+
+        this.streamResponse(`${message.com[0]} - ${message.com[1]}`)
+        // console.log('command', command, 'magnitude', magnitude);
       }
     }
   }
@@ -53,7 +82,7 @@ class CortexClient  {
         "method": "createSession",
         "params": {
           "cortexToken": this.cortexToken,
-          "headset": "EPOCX-E202014A",
+          "headset": this.cortexHeadset,
           "status": "open"
         }
       },
@@ -86,21 +115,24 @@ class CortexClient  {
         break;
     }
 
-    console.log('action', action, 'payload', payload)
+    // console.log('action', action, 'payload', payload);
     return JSON.stringify(payload)
   }
   
-  initConnection = () =>{
+  attemptConnection = () => {
     if (this.cortexToken == undefined) {
-      console.log('fetching cortex token');
+      // console.log('fetching cortex token');
       this.socket.send(this.dispatchPayload('CORTEX_TOKEN'));
     } else if (this.cortexSessionId === undefined) {
-      console.log('fetching cortex session');
+      // console.log('fetching cortex session');
       this.socket.send(this.dispatchPayload('CORTEX_SESSION'));
     } else if (this.cortexStream === undefined) {
-      console.log('fetching cortex stream');
+      // console.log('fetching cortex stream');
       this.socket.send(this.dispatchPayload('CORTEX_STREAM'));
     }
+
+    this.connectionAttempts += 1;
+    // console.log(this.connectionAttempts);
   }
 }
 
