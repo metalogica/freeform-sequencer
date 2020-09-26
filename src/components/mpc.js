@@ -78,16 +78,8 @@ const MpcButtonPair = ({left, right}) => {
     }
   })
 
-  function clickHandler(e) {
-    console.log(e.target.click())
-  }
-
   return (
     <React.Fragment>
-      <button 
-        onClick={(e) => clickHandler(e) }
-        onMouseDown={()=> { handleDown(synth.value, note.value, octave.value, dj ? `CitizenDJ/Dialect Samples/${dj.value}` : "", switchState1)}} >TEST
-      </button>
       <div className="button-container">
         <div
           className = {menuOpened1 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
@@ -151,9 +143,18 @@ const MpcButtonPair = ({left, right}) => {
 const Mpc = () => {
   return (
     <div className = 'mpc-buttons'>
-      <MpcButtonPair left={"r"} right={"i"}/>
-      <MpcButtonPair left={"f"} right={"j"}/>
-      <MpcButtonPair left={"v"} right={"n"}/>
+      <div className='mpc-row'>
+        <MpcButtonPair left={"r"} right={"i"}/>
+        <MpcButtonPair left={"f"} right={"j"}/>
+      </div>
+      <div className='mpc-row'>
+        <MpcButtonPair left={"r"} right={"i"}/>
+        <MpcButtonPair left={"f"} right={"j"}/>
+      </div>
+      <div className='mpc-row'>
+        <MpcButtonPair left={"r"} right={"i"}/>
+        <MpcButtonPair left={"f"} right={"j"}/>
+      </div>
     </div>
   )
 }
