@@ -7,7 +7,7 @@ import axios from 'axios'
 // import CortexClient from '../CortexClient';
 // new CortexClient();
 
-const MpcButtonPair = ({left, right}) => {
+const MpcButton = ({left, right}) => {
 
   // Tone States
   const [note, setnote] = useState(notes[0])
@@ -144,16 +144,16 @@ const Mpc = () => {
   return (
     <div className = 'mpc-buttons'>
       <div className='mpc-row'>
-        <MpcButtonPair left={"r"} right={"i"}/>
-        <MpcButtonPair left={"f"} right={"j"}/>
+        <MpcButton left={"r"} right={"i"}/>
+        <MpcButton left={"f"} right={"j"}/>
       </div>
       <div className='mpc-row'>
-        <MpcButtonPair left={"r"} right={"i"}/>
-        <MpcButtonPair left={"f"} right={"j"}/>
+        <MpcButton left={"r"} right={"i"}/>
+        <MpcButton left={"f"} right={"j"}/>
       </div>
       <div className='mpc-row'>
-        <MpcButtonPair left={"r"} right={"i"}/>
-        <MpcButtonPair left={"f"} right={"j"}/>
+        <MpcButton left={"r"} right={"i"}/>
+        <MpcButton left={"f"} right={"j"}/>
       </div>
     </div>
   )
