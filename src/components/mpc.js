@@ -134,12 +134,15 @@ const MpcButton = ({commandTrigger, left, right}) => {
 }
 
 const Mpc = () => {
-  const streamResponse = (message) => {
-    console.log(message);
+  const [ mentalcommand, setMentalcommand ] = useState({});
+  
+  const streamResponse = ({command, magnitude}) => {
+    // console.log(command, magnitude);
+    setMentalcommand({command, magnitude});
+    console.log(command)
   }
-
-  const cortexClient = new CortexClient({streamResponse});
-  cortexClient.initConnection();
+  
+  new CortexClient({ streamResponse }).initConnection();
 
   return (
     <div className = 'mpc-buttons'>

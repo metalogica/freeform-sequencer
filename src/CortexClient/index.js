@@ -57,7 +57,7 @@ class CortexClient  {
         const command = message.com[0];
         const magnitude = message.com[1];
 
-        this.streamResponse(`${message.com[0]} - ${message.com[1]}`)
+        this.streamResponse({ command: message.com[0], magnitude: message.com[1] });
         // console.log('command', command, 'magnitude', magnitude);
       }
     }
