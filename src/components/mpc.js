@@ -1,26 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { Collapse } from 'react-collapse';
-import Select from 'react-select';
-import { notes, octaves, synths, citizenDjSounds, firestore } from '../data/synth-data';
+import React, { useState, useEffect } from 'react'
+import { Collapse } from 'react-collapse'
+import Select from 'react-select'
+import { notes, octaves, synths, citizenDjSounds, firestore } from '../data/synth-data'
 import Switch from '@material-ui/core/Switch';
 import axios from 'axios';
 import CortexClient from '../CortexClient';
+const cortexClient = new CortexClient();
 
-const MpcButton = ({commandTrigger, left, right}) => {
+const MpcButtonPair = ({left, right}) => {
+
   // Tone States
-  const [note, setnote] = useState(notes[0])
-  const [octave, setoctave] = useState(octaves[0])
-  const [synth, setsynth] = useState(synths[0])
-  const [dj, setdj] = useState(citizenDjSounds[0])
+  const [note1, setNote1] = useState(notes[0])
+  const [note2, setNote2] = useState(notes[0])
+
+  const [octave1, setOctave1] = useState(octaves[0])
+  const [octave2, setOctave2] = useState(octaves[0])
+
+  const [synth1, setSynth1] = useState(synths[0])
+  const [synth2, setSynth2] = useState(synths[0])
+
+  const [dj1, setDj1] = useState(citizenDjSounds[0])
+  const [dj2, setDj2] = useState(citizenDjSounds[0])
+
   // Menu State
   const [menuOpened1, setMenu1] = useState(false)
+  const [menuOpened2, setMenu2] = useState(false)
+
   // Switch States
   const [switchState1, changeSwitch1] = useState(true)
+  const [switchState2, changeSwitch2] = useState(true)
 
   // Switch Styling
   const selectStyle1 = {
     valueContainer: () => ({
       width: switchState1 ? "125px" : "500px",
+      paddingLeft: "20px"
+    })
+  }
+
+  const selectStyle2 = {
+    valueContainer: () => ({
+      width: switchState2 ? "125px" : "500px",
       paddingLeft: "20px"
     })
   }
@@ -31,6 +51,7 @@ const MpcButton = ({commandTrigger, left, right}) => {
   const handleDown = (synth, note, octave, dj, switchOn) => {
     t0 = performance.now()
     setMenu1(false)
+    setMenu2(false)
     if (switchOn) {
       synth.triggerAttackRelease(`${note}${octave}`, "2n")
     }
@@ -50,8 +71,30 @@ const MpcButton = ({commandTrigger, left, right}) => {
   }
 
   useEffect(()=> {
-    if(dj) {
-      const fileName=`CitizenDJ/Dialect Samples/${dj.value}`
+    if(dj1) {
+      const fileName=`CitizenDJ/Dialect Samples/${dj1.value}`
+      const dataRef = firestore.ref(fileName)
+      dataRef.getDownloadURL().then(function(url) {
+        axios({
+          responseType: 'blob',
+          url: url,
+          method: 'get',
+        }).then((res) => {
+          const reader = new FileReader()
+          reader.addEventListener("loadend", () => {
+            sessionStorage.setItem(fileName, reader.result.toString())
+          })
+          reader.readAsDataURL(res.data)
+        })
+      }).catch(function(error){
+        console.log(error)
+      })
+    }
+  })
+
+  useEffect(()=> {
+    if(dj2) {
+      const fileName=`CitizenDJ/Dialect Samples/${dj2.value}`
       const dataRef = firestore.ref(fileName)
       dataRef.getDownloadURL().then(function(url) {
         axios({
@@ -77,16 +120,31 @@ const MpcButton = ({commandTrigger, left, right}) => {
         <div
           className = {menuOpened1 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
-            handleDown(synth.value, note.value, octave.value, dj ? `CitizenDJ/Dialect Samples/${dj.value}` : "", switchState1)
+            handleDown(synth1.value, note1.value, octave1.value, dj1 ? `CitizenDJ/Dialect Samples/${dj1.value}` : "", switchState1)
           }}
           onMouseUp={()=>{
-            handleUp(setMenu1, menuOpened1)
+            handleUp(setMenu1, menuOpened1, setMenu2)
           }}
           onTouchStart={()=> {
-            handleDown(synth.value, note.value, octave.value, dj ? `CitizenDJ/Dialect Samples/${dj.value}` : "", switchState1)
+            handleDown(synth1.value, note1.value, octave1.value, dj1 ? `CitizenDJ/Dialect Samples/${dj1.value}` : "", switchState1)
           }}
           onTouchEnd={()=>{
-            handleUp(setMenu1, menuOpened1)
+            handleUp(setMenu1, menuOpened1, setMenu2)
+          }}
+        />
+        <div
+          className = {menuOpened2 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
+          onMouseDown={()=> {
+            handleDown(synth2.value, note2.value, octave2.value, dj2 ? `CitizenDJ/Dialect Samples/${dj2.value}` : "", switchState2)
+          }}
+          onMouseUp={()=>{
+            handleUp(setMenu2, menuOpened2, setMenu1)
+          }}
+          onTouchStart={()=> {
+            handleDown(synth2.value, note2.value, octave2.value, dj2 ? `CitizenDJ/Dialect Samples/${dj2.value}` : "", switchState2)
+          }}
+          onTouchEnd={()=>{
+            handleUp(setMenu2, menuOpened2, setMenu1)
           }}
         />
       </div>
@@ -96,27 +154,27 @@ const MpcButton = ({commandTrigger, left, right}) => {
             <Select
               styles={selectStyle1}
               options={synths}
-              value={synth}
-              onChange={selectedOption => setsynth(selectedOption)}
+              value={synth1}
+              onChange={selectedOption => setSynth1(selectedOption)}
             />
             <Select
               styles={selectStyle1}
               options={notes}
-              value={note}
-              onChange={selectedOption => setnote(selectedOption)}
+              value={note1}
+              onChange={selectedOption => setNote1(selectedOption)}
             />
             <Select
               styles={selectStyle1}
               options={octaves}
-              value={octave}
-              onChange={selectedOption => setoctave(selectedOption)}
+              value={octave1}
+              onChange={selectedOption => setOctave1(selectedOption)}
             />
           </> :
           <Select
             styles={selectStyle1}
             options={citizenDjSounds}
-            value={dj}
-            onChange={selectedOption => setdj(selectedOption)}
+            value={dj1}
+            onChange={selectedOption => setDj1(selectedOption)}
           />
         }
 
@@ -129,35 +187,61 @@ const MpcButton = ({commandTrigger, left, right}) => {
             />
         </div>
       </Collapse>
+      <Collapse isOpened={menuOpened2}>
+      { switchState2 ?
+        <>
+          <Select
+            styles={selectStyle2}
+            options={synths}
+            value={synth2}
+            onChange={selectedOption => setSynth2(selectedOption)}
+          />
+          <Select
+            styles={selectStyle2}
+            options={notes}
+            value={note2}
+            onChange={selectedOption => setNote2(selectedOption)}
+          />
+          <Select
+            styles={selectStyle2}
+            options={octaves}
+            value={octave2}
+            onChange={selectedOption => setOctave2(selectedOption)}
+          />
+        </> :
+        <Select
+          styles={selectStyle2}
+          options={citizenDjSounds}
+          value={dj2}
+          onChange={selectedOption => setDj2(selectedOption)}
+        />
+      }
+        <div className="switch-container">
+          <Switch
+            checked={switchState2}
+            onChange={() => changeSwitch2(!switchState2)}
+            color="default"
+            size="small"
+            />
+        </div>
+      </Collapse>
     </React.Fragment>
   )
 }
 
 const Mpc = () => {
-  const [ mentalcommand, setMentalcommand ] = useState({});
-  
+  const [ mentalcommand, setMentalCommand ] = useState({});
+
   const streamResponse = ({command, magnitude}) => {
-    // console.log(command, magnitude);
-    setMentalcommand({command, magnitude});
-    console.log(command)
+    // setMentalCommand({type: command, magnitude });
+    console.log(command, magnitude)
   }
-  
-  new CortexClient({ streamResponse }).initConnection();
 
   return (
     <div className = 'mpc-buttons'>
-      <div className='mpc-row'>
-        <MpcButton commandTrigger={'lift'} left={"r"} right={"i"}/>
-        <MpcButton commandTrigger={'drop'} left={"f"} right={"j"}/>
-      </div>
-      <div className='mpc-row'>
-        <MpcButton commandTrigger={'push'} left={"r"} right={"i"}/>
-        <MpcButton commandTrigger={'pull'} right={"j"}/>
-      </div>
-      <div className='mpc-row'>
-        <MpcButton commandTrigger={'rotateleft'} left={"r"} right={"i"}/>
-        <MpcButton commandTrigger={'rorateright'} right={"j"}/>
-      </div>
+      <MpcButtonPair left={"t"} right={"u"}/>
+      <MpcButtonPair left={"f"} right={"j"}/>
+      <MpcButtonPair left={"v"} right={"n"}/>
     </div>
   )
 }

@@ -1,7 +1,5 @@
 class CortexClient  {
-  constructor({streamResponse}) {
-    this.streamResponse = streamResponse;
-
+  constructor() {
     this.socket = new WebSocket('wss://localhost:6868');
     this.cortexHeadset =  "EPOCX-E202014A";
     this.cortexClientId = process.env.REACT_APP_CORTEX_CLIENT_ID;
@@ -11,6 +9,9 @@ class CortexClient  {
     this.cortexStream = undefined;
     this.connectionAttempts = 0;
     this.ready = false;
+    this.dispatch = [];
+
+    this.initConnection();
   }
 
   initConnection = () => {
@@ -53,14 +54,20 @@ class CortexClient  {
           console.log('Successfully established connection to Cortex Mental Command Stream.');
           this.ready = true; 
         }
-
-        const command = message.com[0];
-        const magnitude = message.com[1];
-
-        this.streamResponse({ command: message.com[0], magnitude: message.com[1] });
-        // console.log('command', command, 'magnitude', magnitude);
+        
+        if (this.dispatch.length > 0) {
+          console.log(this)
+          // this.dispatch.forEach(callback => callback({ command: message.com[0], magnitude: message.com[1] }));
+        }
+        console.log('command', message.com[0], 'magnitude', message.com[1]);
       }
     }
+  }
+
+  setDispatch = (callback) => {
+    if (!callback instanceof Function) { throw new Error('You must pass a single argument to the CortexClient dispatcher.'); }
+
+    this.dispatch.push(callback);
   }
 
   dispatchPayload = (action) => {
