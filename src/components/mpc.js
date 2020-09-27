@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Collapse } from 'react-collapse'
 import Select from 'react-select'
 import { notes, octaves, synths, citizenDjSounds, firestore } from '../data/synth-data'
 import Switch from '@material-ui/core/Switch';
 import axios from 'axios';
-import CortexClient from '../CortexClient';
-const cortexClient = new CortexClient();
 
 const MpcButton = ({commandTrigger}) => {
   // Tone States
@@ -154,7 +152,7 @@ const Mpc = () => {
       <button onMouseDown={()=>dispatch({type: 'COMMAND_STREAM', payload: { kind: 'lift', magnitude: Math.random()}})}>TESTER</button>
       <div className='mpc-row'>
         <MpcButton commandTrigger={'lift'}/>
-        <MpcButton commandTrigger={'drop'}/>
+        <MpcButton commandTrigger={'neutral'}/>
       </div>
       <div className='mpc-row'>
         <MpcButton commandTrigger={'push'}/>

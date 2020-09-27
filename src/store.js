@@ -1,6 +1,5 @@
 import { 
-  COMMAND_STREAM,
-  commandStream
+  COMMAND_STREAM
 } from './actions';
 
 const initialState = {
