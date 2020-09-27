@@ -8,7 +8,7 @@ import axios from 'axios';
 import CortexClient from '../CortexClient';
 const cortexClient = new CortexClient();
 
-const MpcButton = () => {
+const MpcButton = ({commandTrigger}) => {
   // Tone States
   const [note1, setNote1] = useState(notes[0])
   const [octave1, setOctave1] = useState(octaves[0])
@@ -75,10 +75,19 @@ const MpcButton = () => {
     }
   })
 
+  const mentalcommandMagnitude = useSelector(state => {
+    if (commandTrigger === state.mentalcommand.kind) {
+      console.log(state, synth1.value, note1.value, octave1.value, switchState1);
+      synth1.value.triggerAttackRelease(`${note1.value}${octave1.value}`, "2n")
+      return state.mentalcommand.magnitude;
+    }
+  });
+
   return (
     <React.Fragment>
       <div className="button-container">
         <div
+          style={ mentalcommandMagnitude ? { 'backgroundColor': `rgba(58, 217, 127, ${mentalcommandMagnitude})` } : {'opacity': 1}}
           className = {menuOpened1 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
             handleDown(synth1.value, note1.value, octave1.value, dj1 ? `CitizenDJ/Dialect Samples/${dj1.value}` : "", switchState1)
@@ -138,31 +147,22 @@ const MpcButton = () => {
 }
 
 const Mpc = () => {
-  const [ mentalcommand, setMentalCommand ] = useState({});
-
-  const test = useSelector(state => console.log(state))
-
   const dispatch = useDispatch();
-
-  const streamResponse = ({command, magnitude}) => {
-    // setMentalCommand({type: command, magnitude });
-    console.log(command, magnitude)
-  }
 
   return (
     <div className = 'mpc-buttons'>
-      <button onMouseDown={()=>dispatch({type: 'COMMAND_STREAM', payload: { kind: 'lift', magntiude: 0.5467}})}>TESTER</button>
+      <button onMouseDown={()=>dispatch({type: 'COMMAND_STREAM', payload: { kind: 'lift', magnitude: Math.random()}})}>TESTER</button>
       <div className='mpc-row'>
-        <MpcButton />
-        <MpcButton />
+        <MpcButton commandTrigger={'lift'}/>
+        <MpcButton commandTrigger={'drop'}/>
       </div>
       <div className='mpc-row'>
-        <MpcButton />
-        <MpcButton />
+        <MpcButton commandTrigger={'push'}/>
+        <MpcButton commandTrigger={'pull'}/>
       </div>
       <div className='mpc-row'>
-        <MpcButton />
-        <MpcButton />
+        <MpcButton commandTrigger={'rotateright'}/>
+        <MpcButton commandTrigger={'rotateleft'}/>
       </div>
     </div>
   )
