@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
 import { Collapse } from 'react-collapse'
 import Select from 'react-select'
 import { notes, octaves, synths, citizenDjSounds, firestore } from '../data/synth-data'
@@ -232,6 +233,10 @@ const MpcButtonPair = ({left, right}) => {
 const Mpc = () => {
   const [ mentalcommand, setMentalCommand ] = useState({});
 
+  const test = useSelector(state => console.log(state))
+
+  const dispatch = useDispatch();
+
   const streamResponse = ({command, magnitude}) => {
     // setMentalCommand({type: command, magnitude });
     console.log(command, magnitude)
@@ -239,6 +244,7 @@ const Mpc = () => {
 
   return (
     <div className = 'mpc-buttons'>
+      <button onMouseDown={()=>dispatch({type: 'COMMAND_STREAM', payload: { kind: 'lift', magntiude: 0.5467}})}>TESTER</button>
       <MpcButtonPair left={"t"} right={"u"}/>
       <MpcButtonPair left={"f"} right={"j"}/>
       <MpcButtonPair left={"v"} right={"n"}/>
