@@ -73,10 +73,16 @@ const MpcButton = ({commandTrigger}) => {
     }
   })
 
+  // Cortex Integration
+  const [ firedLast, setFiredlast ] = useState(Date.now());
+
   const mentalcommandMagnitude = useSelector(state => {
     if (commandTrigger === state.mentalcommand.kind) {
-      console.log(state, synth1.value, note1.value, octave1.value, switchState1);
-      synth1.value.triggerAttackRelease(`${note1.value}${octave1.value}`, "2n")
+      const correctTiming = () => Date.now() - firedLast > 500;
+      if (correctTiming()) {
+        synth1.value.triggerAttackRelease(`${note1.value}${octave1.value}`, "8n");
+        setFiredlast(Date.now());
+      }
       return state.mentalcommand.magnitude;
     }
   });
@@ -85,7 +91,7 @@ const MpcButton = ({commandTrigger}) => {
     <React.Fragment>
       <div className="button-container">
         <div
-          style={ mentalcommandMagnitude ? { 'backgroundColor': `rgba(58, 217, 127, ${mentalcommandMagnitude})` } : {'opacity': 1}}
+          style={ mentalcommandMagnitude > 0 ? { 'backgroundColor': `rgba(58, 217, 127, ${mentalcommandMagnitude})` } : {'opacity': 1}}
           className = {menuOpened1 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
             handleDown(synth1.value, note1.value, octave1.value, dj1 ? `CitizenDJ/Dialect Samples/${dj1.value}` : "", switchState1)
@@ -145,11 +151,8 @@ const MpcButton = ({commandTrigger}) => {
 }
 
 const Mpc = () => {
-  const dispatch = useDispatch();
-
   return (
     <div className = 'mpc-buttons'>
-      <button onMouseDown={()=>dispatch({type: 'COMMAND_STREAM', payload: { kind: 'lift', magnitude: Math.random()}})}>TESTER</button>
       <div className='mpc-row'>
         <MpcButton commandTrigger={'lift'}/>
         <MpcButton commandTrigger={'neutral'}/>
