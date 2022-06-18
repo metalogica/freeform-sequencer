@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Menu from './menu';
 
@@ -75,59 +75,63 @@ const CortexProvider = () => {
     ready: false
   }
 
+  const [ start, setStart ] = useState(false);
+
   useEffect(() => {
-    socket.onopen = (event) => {
-      connectionHandler = setInterval(() => {
-        if (options.cortexToken == undefined) {
-          // console.log('fetching cortex token');
-          socket.send(dispatchPayload('CORTEX_TOKEN', options));
-        } else if (options.cortexSessionId === undefined) {
-          // console.log('fetching cortex session');
-          socket.send(dispatchPayload('CORTEX_SESSION', options));
-        } else if (options.cortexStream === undefined) {
-          // console.log('fetching cortex stream');
-          socket.send(dispatchPayload('CORTEX_STREAM', options));
-        }
-      
-        options.connectionAttempts += 1;
-      }, 1000);
-    };
-    socket.onmessage = (event) => {
-      if (options.connectionAttempts >= 5 && options.ready !== true){
-        clearInterval(connectionHandler);
-        console.error(`
-          Unable to establish connection to Cortex API. Please check your keys are correct:\n
-          Cortex Client ID: ${options.cortexClientId}\n
-          Cortex Client Secret: ${options.cortexClientSecret}\n
-          Stage 1/3: Cortex Token: ${options.cortexToken}\n
-          Stage 2/3: Cortex Session ID: ${options.cortexSessionId}\n
-          Stage 3/3: Cortex Mental Command Stream: ${options.cortexStream}
-        `);
-      }
-
-      const message = JSON.parse(event.data);
-
-      if (message && message.result && message.result.cortexToken) {
-        // console.log('should store cortex token', event);
-        options.cortexToken = message.result.cortexToken;
-      } 
-      else if (message && message.result && message.result.id) {
-        // console.log('should store session', event)
-        options.cortexSessionId = message.result.id;
-      } 
-      else if (message && message.result && message.result.success) {
-        // console.log('should store stream', event);
-        options.cortexStream = 'mentalCommand';
-        options.ready = true;
-      }
-      else if (message && message.com) {
-        if (options.ready === false) { 
-          console.log('Successfully established connection to Cortex Mental Command Stream.');
-          options.ready = true; 
-        }
+    if (start) {
+      socket.onopen = (event) => {
+        connectionHandler = setInterval(() => {
+          if (options.cortexToken == undefined) {
+            // console.log('fetching cortex token');
+            socket.send(dispatchPayload('CORTEX_TOKEN', options));
+          } else if (options.cortexSessionId === undefined) {
+            // console.log('fetching cortex session');
+            socket.send(dispatchPayload('CORTEX_SESSION', options));
+          } else if (options.cortexStream === undefined) {
+            // console.log('fetching cortex stream');
+            socket.send(dispatchPayload('CORTEX_STREAM', options));
+          }
         
-        // console.log('command', message.com[0], 'magnitude', message.com[1]);
-        dispatch({type: 'COMMAND_STREAM', payload: { kind: message.com[0], magnitude: message.com[1]}});
+          options.connectionAttempts += 1;
+        }, 1000);
+      };
+      socket.onmessage = (event) => {
+        if (options.connectionAttempts >= 5 && options.ready !== true){
+          clearInterval(connectionHandler);
+          console.error(`
+            Unable to establish connection to Cortex API. Please check your keys are correct:\n
+            Cortex Client ID: ${options.cortexClientId}\n
+            Cortex Client Secret: ${options.cortexClientSecret}\n
+            Stage 1/3: Cortex Token: ${options.cortexToken}\n
+            Stage 2/3: Cortex Session ID: ${options.cortexSessionId}\n
+            Stage 3/3: Cortex Mental Command Stream: ${options.cortexStream}
+          `);
+        }
+  
+        const message = JSON.parse(event.data);
+  
+        if (message && message.result && message.result.cortexToken) {
+          // console.log('should store cortex token', event);
+          options.cortexToken = message.result.cortexToken;
+        } 
+        else if (message && message.result && message.result.id) {
+          // console.log('should store session', event)
+          options.cortexSessionId = message.result.id;
+        } 
+        else if (message && message.result && message.result.success) {
+          // console.log('should store stream', event);
+          options.cortexStream = 'mentalCommand';
+          options.ready = true;
+        }
+        else if (message && message.com) {
+          if (options.ready === false) { 
+            console.log('Successfully established connection to Cortex Mental Command Stream.');
+            options.ready = true; 
+          }
+          
+          console.log('command', message.com[0], 'magnitude', message.com[1]);
+          dispatch({type: 'COMMAND_STREAM', payload: { kind: message.com[0], magnitude: message.com[1]}});
+        }
       }
     }
   });
@@ -135,7 +139,13 @@ const CortexProvider = () => {
   // const cortexStream = new CortexClient({dispatch: useDispatch});
   // cortexStream.initConnection();
 
-  return <Menu/>;
+  return (
+    <>
+      <button onClick={() => setStart(true)}>START STREAM</button>
+      <button onClick={() => socket.close()}>STOP STREAM</button>
+      <Menu/>
+    </>
+  )
 }
 
 export default CortexProvider;

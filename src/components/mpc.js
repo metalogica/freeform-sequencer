@@ -6,7 +6,7 @@ import { notes, octaves, synths, citizenDjSounds, firestore } from '../data/synt
 import Switch from '@material-ui/core/Switch';
 import axios from 'axios';
 
-const MpcButton = ({commandTrigger}) => {
+const MpcButton = ({commandTrigger, synth}) => {
   // Tone States
   const [note1, setNote1] = useState(notes[0])
   const [octave1, setOctave1] = useState(octaves[0])
@@ -41,12 +41,14 @@ const MpcButton = ({commandTrigger}) => {
       const audio = new Audio(sound)
       audio.play()
     }
+
+    console.log('hello!');
   }
 
   const handleUp = (menuToggle, menuOpened, menuNonToggle) => {
     if ( performance.now() - t0 > 500 ) {
       menuToggle(!menuOpened)
-      menuNonToggle(false)
+      // menuNonToggle(false)
       t0 = 0
     }
   }
@@ -80,7 +82,8 @@ const MpcButton = ({commandTrigger}) => {
     if (commandTrigger === state.mentalcommand.kind) {
       const correctTiming = () => Date.now() - firedLast > 500;
       if (correctTiming()) {
-        synth1.value.triggerAttackRelease(`${note1.value}${octave1.value}`, "8n");
+        synth.value.triggerAttackRelease(`${note1.value}${octave1.value}`, "8n");
+        console.log(synth1, note1.value)
         setFiredlast(Date.now());
       }
       return state.mentalcommand.magnitude;
@@ -91,7 +94,7 @@ const MpcButton = ({commandTrigger}) => {
     <React.Fragment>
       <div className="button-container">
         <div
-          style={ mentalcommandMagnitude > 0 ? { 'backgroundColor': `rgba(58, 217, 127, ${mentalcommandMagnitude})` } : {'opacity': 1}}
+          style={ mentalcommandMagnitude > 0 ? { 'backgroundColor': `rgba(58, 217, 127, ${mentalcommandMagnitude})`, 'box-shadow': '0px 0px 20px 5px rgba(58, 217, 127, 0.5);' } : {'opacity': 1}}
           className = {menuOpened1 ? 'mpc-button ripple menuOpened' : 'mpc-button ripple'}
           onMouseDown={()=> {
             handleDown(synth1.value, note1.value, octave1.value, dj1 ? `CitizenDJ/Dialect Samples/${dj1.value}` : "", switchState1)
@@ -154,16 +157,16 @@ const Mpc = () => {
   return (
     <div className = 'mpc-buttons'>
       <div className='mpc-row'>
-        <MpcButton commandTrigger={'lift'}/>
-        <MpcButton commandTrigger={'neutral'}/>
+        <MpcButton commandTrigger={'lift'} synth={synths[2]}/>
+        <MpcButton commandTrigger={'right'} synth={synths[1]}/>
       </div>
       <div className='mpc-row'>
-        <MpcButton commandTrigger={'push'}/>
-        <MpcButton commandTrigger={'pull'}/>
+        <MpcButton commandTrigger={'rotateLeft'} synth={synths[3]}/>
+        <MpcButton commandTrigger={'pull'} synth={synths[3]}/>
       </div>
       <div className='mpc-row'>
-        <MpcButton commandTrigger={'rotateright'}/>
-        <MpcButton commandTrigger={'rotateleft'}/>
+        <MpcButton commandTrigger={'rotateRight'} synth={synths[3]}/>
+        <MpcButton commandTrigger={'rotateLeft'} synth={synths[2]}/>
       </div>
     </div>
   )
